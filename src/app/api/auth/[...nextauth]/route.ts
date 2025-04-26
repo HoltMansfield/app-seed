@@ -4,6 +4,9 @@ import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { db } from "@/db";
 import { users, accounts, sessions, verificationTokens } from "@/db/schema";
 
+console.log('Google Client ID:', process.env.GOOGLE_CLIENT_ID?.substring(0, 5) + '...');
+console.log('NextAuth Secret:', process.env.NEXTAUTH_SECRET?.substring(0, 5) + '...');
+
 const handler = NextAuth({
   adapter: DrizzleAdapter(db, {
     usersTable: users,
