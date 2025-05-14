@@ -3,9 +3,7 @@ import GoogleProvider from "next-auth/providers/google";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { db } from "@/db";
 import { users, accounts, sessions, verificationTokens } from "@/db/schema";
-
-console.log('Google Client ID:', process.env.GOOGLE_CLIENT_ID?.substring(0, 5) + '...');
-console.log('NextAuth Secret:', process.env.NEXTAUTH_SECRET?.substring(0, 5) + '...');
+import { v4 as uuidv4 } from "uuid";
 
 const handler = NextAuth({
   adapter: DrizzleAdapter(db, {
@@ -14,6 +12,26 @@ const handler = NextAuth({
     sessionsTable: sessions,
     verificationTokensTable: verificationTokens,
   }),
+  callbacks: {
+    async session({ session, user }) {
+      debugger;
+      if (session.user) {
+        session.user = {
+          ...session.user,
+          id: user.id
+        };
+      }
+      return session;
+    },
+  },
+  events: {
+    async createUser({ user }) {
+      debugger;
+      if (!user.id) {
+        user.id = uuidv4();
+      }
+    },
+  },
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,

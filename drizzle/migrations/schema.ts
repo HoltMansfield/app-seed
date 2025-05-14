@@ -32,7 +32,7 @@ export const users = sqliteTable("users", {
 
 export const verificationTokens = sqliteTable("verificationTokens", {
 	identifier: text().notNull(),
-	token: text().primaryKey().notNull(),
+	token: text().notNull(),
 	expires: integer().notNull(),
 });
 

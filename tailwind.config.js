@@ -5,9 +5,12 @@ module.exports = {
     './src/components/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      animation: {
+        'spin-slow': 'spin 3s linear infinite',
+        'bounce-slow': 'bounce 2s infinite'
+      }
+    },
   },
-  plugins: [
-    require('tw-animate-css'),
-  ],
+  plugins: [],
 };
