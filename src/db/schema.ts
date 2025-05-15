@@ -5,6 +5,7 @@ export const users = sqliteTable("users", {
   id: text("id").primaryKey(),
   name: text("name"),
   email: text("email"),
+  passwordHash: text("passwordHash"), // For storing hashed passwords
   emailVerified: integer("emailVerified", { mode: "timestamp" }),
   image: text("image"),
 });

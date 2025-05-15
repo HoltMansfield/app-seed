@@ -15,6 +15,13 @@
       "when": 1745633221298,
       "tag": "0001_rainy_machine_man",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1747271187508,
+      "tag": "0002_vengeful_nuke",
+      "breakpoints": true
     }
   ]
 }
