@@ -7,3 +7,9 @@ npx drizzle-kit pull
 npx drizzle-kit check
 npx drizzle-kit up
 npx drizzle-kit studio
+
+
+For a new DB:
+generate
+migrate
+push
