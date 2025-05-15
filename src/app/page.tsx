@@ -16,6 +16,13 @@ export default async function Home() {
   const result = await db.select({ count: count() }).from(users);
   const userCount = result[0]?.count ?? 0;
 
+  async function logoutAction() {
+    "use server";
+    const cookieStore = cookies();
+    (await cookieStore).delete("session_user");
+    redirect("/login");
+  }
+
   return (
     <main className="flex flex-col items-center justify-center min-h-screen gap-8">
       <Card className="max-w-md w-full">
@@ -25,7 +32,7 @@ export default async function Home() {
         <div className="mt-4 text-sm text-gray-500">
           {`Total users in DB: ${userCount}`}
         </div>
-        <form action={require("./logout/page").logoutAction} className="mt-6">
+        <form action={logoutAction} className="mt-6">
           <button type="submit" className="bg-red-600 text-white rounded px-4 py-2">Logout</button>
         </form>
       </Card>
