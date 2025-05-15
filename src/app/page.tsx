@@ -25,7 +25,7 @@ export default async function Home() {
         <div className="mt-4 text-sm text-gray-500">
           {`Total users in DB: ${userCount}`}
         </div>
-        <form action="/logout" method="get" className="mt-6">
+        <form action={require("./logout/page").logoutAction} className="mt-6">
           <button type="submit" className="bg-red-600 text-white rounded px-4 py-2">Logout</button>
         </form>
       </Card>
