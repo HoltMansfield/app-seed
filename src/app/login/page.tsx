@@ -7,7 +7,8 @@ import { eq } from "drizzle-orm";
 
 export default async function LoginPage({ searchParams }: { searchParams?: { error?: string } }) {
   let message = "";
-  if (searchParams?.error) message = searchParams.error;
+  const result = await searchParams;
+  if (result?.error) message = result.error;
 
   async function handleLogin(formData: FormData) {
     "use server";
