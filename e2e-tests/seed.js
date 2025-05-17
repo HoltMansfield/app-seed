@@ -8,13 +8,13 @@ const { nanoid } = require('nanoid');
 const bcrypt = require('bcryptjs');
 const dotenv = require('dotenv');
 
-// Load environment variables from e2e.env
-dotenv.config({ path: './database/e2e.env' });
+// Load environment variables from .env.e2e
+dotenv.config({ path: './.env.e2e' });
 
 async function seed() {
   try {
     // Get database path from environment or use default
-    const dbPath = process.env.DB_PATH || './database/e2e.db';
+    const dbPath = process.env.DB_URL || './database/e2e.db';
     console.log(`Using database at: ${dbPath}`);
     
     // Connect to SQLite database

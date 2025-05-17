@@ -3,11 +3,11 @@ import fs from 'fs';
 import path from 'path';
 import dotenv from 'dotenv';
 
-dotenv.config({ path: './database/e2e.env' });
+dotenv.config({ path: './.env.e2e' });
 
 export default async function globalSetup() {
   // Remove any existing e2e.db
-  const dbPath = process.env.DB_PATH || './database/e2e.db';
+  const dbPath = process.env.DB_URL || './database/e2e.db';
   if (fs.existsSync(dbPath)) {
     console.log(`[global-setup] Removing existing db at ${dbPath}`);
     fs.unlinkSync(dbPath);

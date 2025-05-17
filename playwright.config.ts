@@ -1,6 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 import dotenv from 'dotenv';
-dotenv.config({ path: './database/e2e.env' });
+dotenv.config({ path: './.env.e2e' });
 
 /**
  * See https://playwright.dev/docs/test-configuration.
