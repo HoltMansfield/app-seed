@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "test:e2e": "playwright test",
-    "test:e2e:ci": "start-server-and-test 'next start' 3000 'playwright test'"
+    "test:e2e:ci": "start-server-and-test 'next dev' 3000 'playwright test'"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.0",
