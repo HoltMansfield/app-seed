@@ -17,6 +17,17 @@ jobs:
       run: npm ci
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
+    - name: Install sqlite3 CLI
+      run: sudo apt-get update && sudo apt-get install -y sqlite3
+    - name: Export env vars from database/e2e.env
+      run: |
+        set -a
+        [ -f database/e2e.env ] && . database/e2e.env
+        set +a
+    - name: Start Next.js app
+      run: npm run dev &
+    - name: Wait for Next.js to be ready
+      run: npx wait-on http://localhost:3000
     - name: Run Playwright tests
       run: npx playwright test
     - uses: actions/upload-artifact@v4
