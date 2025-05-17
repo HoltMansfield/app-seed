@@ -23,7 +23,7 @@ export default async function LoginPage({ searchParams }: { searchParams?: { err
       redirect("/login?error=Invalid credentials.");
     }
     const user = found[0];
-    const valid = await bcrypt.compare(password, user.passwordHash || "");
+    const valid = await bcrypt.compare(password, user.passwordHash ?? "");
     if (!valid) {
       redirect("/login?error=Invalid credentials.");
     }
