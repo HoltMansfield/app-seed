@@ -20,8 +20,13 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
 
-    - name: Install sqlite3 CLI
-      run: sudo apt-get update && sudo apt-get install -y sqlite3
+    - name: Create .env.e2e
+      run: |
+        echo "DB_URL=${{ secrets.DB_URL }}" > .env.e2e
+        # Add more secrets here as needed
+        # echo "OTHER_SECRET=${{ secrets.OTHER_SECRET }}" >> .env.e2e
+      env:
+        DB_URL: ${{ secrets.DB_URL }}
 
     - name: Setup database
       run: npm run db:setup:ci
