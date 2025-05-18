@@ -1,10 +1,13 @@
 import type { Config } from "drizzle-kit";
 
+import * as dotenv from "dotenv";
+dotenv.config({ path: ".env.e2e" });
+
 export default {
   schema: "./src/db/schema.ts",
   out: "./drizzle/migrations",
-  dialect: "sqlite",
+  dialect: "postgresql",
   dbCredentials: {
-    url: "./database/e2e.db",
+    url: process.env.DB_URL ?? '',
   },
 } satisfies Config;

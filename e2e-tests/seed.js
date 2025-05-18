@@ -3,7 +3,8 @@
 
 const fs = require('fs');
 const path = require('path');
-const Database = require('better-sqlite3');
+// TODO: Implement seeding for Neon Postgres. See Drizzle docs for recommended approach.
+// const { Pool } = require('@neondatabase/serverless');
 const { nanoid } = require('nanoid');
 const bcrypt = require('bcryptjs');
 const dotenv = require('dotenv');

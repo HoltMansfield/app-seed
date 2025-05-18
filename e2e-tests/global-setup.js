@@ -6,8 +6,8 @@ import dotenv from 'dotenv';
 dotenv.config({ path: './.env.e2e' });
 
 export default async function globalSetup() {
-  // Remove any existing e2e.db
-  const dbPath = process.env.DB_URL || './database/e2e.db';
+  // TODO: Implement setup for Neon Postgres if needed.
+  const dbUrl = process.env.DB_URL; // Use Neon Postgres URL
   if (fs.existsSync(dbPath)) {
     console.log(`[global-setup] Removing existing db at ${dbPath}`);
     fs.unlinkSync(dbPath);
