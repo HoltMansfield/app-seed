@@ -1,4 +1,4 @@
-import { db } from "@/db";
+import { db } from "@/db/connect";
 import { users } from "@/db/schema";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";

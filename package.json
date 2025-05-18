@@ -7,8 +7,15 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test:e2e": "playwright test",
-    "test:e2e:ci": "start-server-and-test 'next dev' 3000 'playwright test'"
+    "test:e2e": "dotenv -e .env.e2e -- playwright test",
+    "test:e2e:ci": "start-server-and-test 'next dev' 3000 'playwright test'",
+    "generate": "dotenv -e .env.local -- drizzle-kit generate",
+    "migrate": "dotenv -e .env.local -- drizzle-kit migrate",
+    "push": "dotenv -e .env.local -- drizzle-kit push",
+    "pull": "dotenv -e .env.local -- drizzle-kit pull",
+    "check": "dotenv -e .env.local -- drizzle-kit check",
+    "up": "dotenv -e .env.local -- drizzle-kit up",
+    "studio": "dotenv -e .env.local -- drizzle-kit studio"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.0",
@@ -16,7 +23,6 @@
     "@types/bcryptjs": "^3.0.0",
     "@types/uuid": "^10.0.0",
     "bcryptjs": "^3.0.2",
-
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "drizzle-kit": "^0.31.1",
@@ -32,11 +38,11 @@
     "@eslint/eslintrc": "^3",
     "@playwright/test": "^1.52.0",
     "@tailwindcss/postcss": "^4",
-
     "@types/node": "^20.17.30",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "dotenv": "^16.5.0",
+    "dotenv-cli": "^8.0.0",
     "drizzle-kit": "^0.31.1",
     "eslint": "^9",
     "eslint-config-next": "15.3.1",

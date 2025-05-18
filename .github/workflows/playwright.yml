@@ -6,6 +6,7 @@ on:
     branches: [ main, master ]
 jobs:
   test:
+    environment: e2e # this is where environment variables are set
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
@@ -15,17 +16,16 @@ jobs:
         node-version: lts/*
     - name: Install dependencies
       run: npm ci
+
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
+
     - name: Install sqlite3 CLI
       run: sudo apt-get update && sudo apt-get install -y sqlite3
-    - name: Export env vars from database/e2e.env
-      run: |
-        set -a
-        [ -f database/e2e.env ] && . database/e2e.env
-        set +a
+
     - name: Run E2E tests
       run: npm run test:e2e:ci
+
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:

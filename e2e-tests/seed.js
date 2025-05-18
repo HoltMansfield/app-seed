@@ -1,17 +1,8 @@
 // e2e-tests/seed.js
 // Script to seed the E2E database with a user using direct SQLite
-
-const fs = require('fs');
-const path = require('path');
 import { neon } from '@neondatabase/serverless/web';
 const { nanoid } = require('nanoid');
 const bcrypt = require('bcryptjs');
-const dotenv = require('dotenv');
-const env = process.env.NODE_ENV || "e2e";
-let envFile = ".env.e2e";
-if (env === "development") envFile = ".env.local";
-else if (env === "production") envFile = ".env.production";
-dotenv.config({ path: envFile });
 
 async function seed() {
   try {
