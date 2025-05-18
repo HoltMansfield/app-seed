@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "db:setup": "dotenv -e .env.local -- node --loader ts-node/esm ./e2e-tests/db-setup.ts",
+    "db:setup:ci": "node --loader ts-node/esm ./e2e-tests/db-setup.ts",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
