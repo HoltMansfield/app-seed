@@ -25,6 +25,7 @@ jobs:
         echo "DB_URL=${{ secrets.DB_URL }}" > .env.e2e
         # Add more secrets here as needed
         # echo "OTHER_SECRET=${{ secrets.OTHER_SECRET }}" >> .env.e2e
+        chmod 600 .env.e2e
       env:
         DB_URL: ${{ secrets.DB_URL }}
 
