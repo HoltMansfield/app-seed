@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test:e2e": "dotenv -e .env.e2e -- playwright test",
-    "test:e2e:ci": "start-server-and-test 'next dev' 3000 'playwright test'",
+    "test:e2e": "NODE_OPTIONS='-r ts-node/register' dotenv -e .env.e2e -- playwright test",
+    "test:e2e:ci": "NODE_OPTIONS='-r ts-node/register'start-server-and-test 'next dev' 3000 'playwright test'",
     "generate": "dotenv -e .env.local -- drizzle-kit generate",
     "migrate": "dotenv -e .env.local -- drizzle-kit migrate",
     "push": "dotenv -e .env.local -- drizzle-kit push",
@@ -29,10 +29,12 @@
     "drizzle-orm": "^0.43.1",
     "lucide-react": "^0.503.0",
     "next": "15.3.1",
+    "node-fetch": "^3.3.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tailwind-merge": "^3.2.0",
-    "uuid": "^11.1.0"
+    "uuid": "^11.1.0",
+    "ws": "^8.18.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -41,6 +43,7 @@
     "@types/node": "^20.17.30",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/ws": "^8.18.1",
     "dotenv": "^16.5.0",
     "dotenv-cli": "^8.0.0",
     "drizzle-kit": "^0.31.1",
