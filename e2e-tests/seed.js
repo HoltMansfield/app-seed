@@ -3,8 +3,7 @@
 
 const fs = require('fs');
 const path = require('path');
-// TODO: Implement seeding for Neon Postgres. See Drizzle docs for recommended approach.
-// const { Pool } = require('@neondatabase/serverless');
+import { neon } from '@neondatabase/serverless/web';
 const { nanoid } = require('nanoid');
 const bcrypt = require('bcryptjs');
 const dotenv = require('dotenv');
@@ -14,13 +13,14 @@ dotenv.config({ path: './.env.e2e' });
 
 async function seed() {
   try {
-    // Get database path from environment or use default
-    const dbPath = process.env.DB_URL || './database/e2e.db';
-    console.log(`Using database at: ${dbPath}`);
-    
-    // Connect to SQLite database
-    const db = new Database(dbPath);
-    
+    // Get database URL from environment
+    const dbUrl = process.env.DB_URL;
+    if (!dbUrl) throw new Error('DB_URL not set in environment');
+    console.log(`Using Neon database at: ${dbUrl}`);
+
+    // Connect to Neon Postgres
+    const sql = neon(dbUrl);
+
     // Generate user data
     const id = nanoid();
     const email = 'ScottieBarnes@raptors.com';
@@ -28,18 +28,15 @@ async function seed() {
     const password = 'raptors2025';
     const passwordHash = await bcrypt.hash(password, 10);
     const image = 'https://nba-players.com/scottie-barnes.png';
-    const emailVerified = null; // or Date.now() if you want it verified
-    
-    // Insert user with direct SQL
-    const stmt = db.prepare(`
-      INSERT INTO users (id, name, email, "passwordHash", "emailVerified", image)
-      VALUES (?, ?, ?, ?, ?, ?)
-    `);
-    
-    stmt.run(id, name, email, passwordHash, emailVerified, image);
-    
+    const emailVerified = null; // or new Date().toISOString() if you want it verified
+
+    // Insert user with parameterized query
+    await sql`
+      INSERT INTO users (id, name, email, passwordHash, emailVerified, image)
+      VALUES (${id}, ${name}, ${email}, ${passwordHash}, ${emailVerified}, ${image})
+      ON CONFLICT (email) DO NOTHING;
+    `;
     console.log('Seeded user:', email);
-    db.close();
   } catch (error) {
     console.error('Error seeding database:', error);
     process.exit(1);
