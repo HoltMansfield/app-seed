@@ -17,7 +17,7 @@ async function polyfillGlobals() {
   }
 }
 
-const globalSetup = async () => {
+const dbSetup = async () => {
   await polyfillGlobals();
   // Clean Neon Postgres database before E2E migrations
   const dbUrl = process.env.DB_URL;
@@ -58,4 +58,4 @@ const globalSetup = async () => {
   execSync('npx drizzle-kit push --config=drizzle-e2e.config.ts', { stdio: 'inherit' });
 };
 
-export default globalSetup;
+dbSetup();
