@@ -11,7 +11,7 @@
     "start": "next start",
     "lint": "next lint",
     "test:e2e": "npm run db:setup && NODE_OPTIONS='-r ts-node/register' dotenv -e .env.e2e -- playwright test",
-    "test:e2e:ci": "NODE_OPTIONS='-r ts-node/register' start-server-and-test 'next dev' 3000 'dotenv -e .env.e2e -- playwright test'",
+    "test:e2e:ci": "start-server-and-test 'next dev' 3000 'dotenv -e .env.e2e -- node --loader ts-node/esm node_modules/playwright/test'",
     "generate": "dotenv -e .env.local -- drizzle-kit generate",
     "migrate": "dotenv -e .env.local -- drizzle-kit migrate",
     "push": "dotenv -e .env.local -- drizzle-kit push",
