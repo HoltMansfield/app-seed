@@ -7,13 +7,13 @@ export default defineConfig({
   testDir: './e2e-tests',
   // globalSetup: './e2e-tests/global-setup.ts',
   /* Run tests in files in parallel */
-  fullyParallel: true,
+  fullyParallel: false,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
+  retries: 0,
   /* Set number of workers: 6 locally, 3 in CI */
-  workers: process.env.CI ? 3 : 6,
+  // workers: undefined, // Use Playwright default
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
@@ -21,9 +21,9 @@ export default defineConfig({
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: 'http://localhost:3000',
     /* Speed up tests by disabling animations */
-    ignoreHTTPSErrors: true,
-    viewport: { width: 1280, height: 720 },
-    trace: 'on-first-retry'
+    ignoreHTTPSErrors: false,
+    // viewport: undefined, // Use Playwright default
+    // trace: 'off'
   },
   projects: [
     {
