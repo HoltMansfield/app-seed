@@ -7,9 +7,11 @@ import { neon } from '@neondatabase/serverless/web';
 const { nanoid } = require('nanoid');
 const bcrypt = require('bcryptjs');
 const dotenv = require('dotenv');
-
-// Load environment variables from .env.e2e
-dotenv.config({ path: './.env.e2e' });
+const env = process.env.NODE_ENV || "e2e";
+let envFile = ".env.e2e";
+if (env === "development") envFile = ".env.local";
+else if (env === "production") envFile = ".env.production";
+dotenv.config({ path: envFile });
 
 async function seed() {
   try {

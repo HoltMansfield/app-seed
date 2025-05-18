@@ -1,9 +1,12 @@
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
-import dotenv from 'dotenv';
-
-dotenv.config({ path: './.env.e2e' });
+const dotenv = require('dotenv');
+const env = process.env.NODE_ENV || "e2e";
+let envFile = ".env.e2e";
+if (env === "development") envFile = ".env.local";
+else if (env === "production") envFile = ".env.production";
+dotenv.config({ path: envFile });
 
 export default async function globalSetup() {
   // TODO: Implement setup for Neon Postgres if needed.
