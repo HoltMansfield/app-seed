@@ -3,10 +3,10 @@ import dbE2E from "./connect-e2e";
 
 let db;
 
-if(process.env.E2E_TEST){
+if (!process.env.E2E_TEST || process.env.E2E_TEST === "false") {
     db = dbWeb;
-}else{
+} else {
     db = dbE2E;
 }    
 
-export default db;
+export { db };
