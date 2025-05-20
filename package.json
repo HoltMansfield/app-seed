@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test:e2e": "run-s start:e2e-db _test:e2e:with-app stop:e2e-db",
+    "test:e2e": "run-s start:e2e-db db:e2e _test:e2e:with-app stop:e2e-db",
+    "db:e2e": "run-s e2e:generate e2e:migrate",
     "_test:e2e:with-app": "start-server-and-test 'dotenv -e .env.e2e -- next dev --port 3001' http://localhost:3001 'npx dotenv -e .env.e2e -- playwright test'",
     "generate": "dotenv -e .env.local -- drizzle-kit generate",
     "migrate": "dotenv -e .env.local -- drizzle-kit migrate",
@@ -18,7 +19,9 @@
     "up": "dotenv -e .env.local -- drizzle-kit up",
     "studio": "dotenv -e .env.local -- drizzle-kit studio",
     "start:e2e-db": "node scripts/start-e2e-db.cjs",
-    "stop:e2e-db": "node scripts/stop-e2e-db.cjs"
+    "stop:e2e-db": "node scripts/stop-e2e-db.cjs",
+    "e2e:generate": "node scripts/drizzle-e2e.cjs generate",
+    "e2e:migrate": "node scripts/drizzle-e2e.cjs migrate"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.0",
