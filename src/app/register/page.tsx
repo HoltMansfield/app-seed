@@ -19,6 +19,10 @@ export default async function RegisterPage({ searchParams }: { searchParams?: { 
     if (!email || !password) {
       redirect("/register?error=Email and password required.");
     }
+    // Check for db being null
+    if (!db) {
+      redirect("/register?error=Database connection error. Please try again later.");
+    }
     // Check if user already exists
     const existing = await db.select().from(users).where(eq(users.email, email));
     if (existing.length > 0) {
