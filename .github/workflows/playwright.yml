@@ -23,17 +23,17 @@ jobs:
     - name: Create .env.e2e
       run: |
         echo "DB_URL=${{ secrets.DB_URL }}" > .env.e2e
-        # Add more secrets here as needed
-        # echo "OTHER_SECRET=${{ secrets.OTHER_SECRET }}" >> .env.e2e
+        echo "MIGRATIONS_PATH=${{ secrets.MIGRATIONS_PATH }}" >> .env.e2e
+        echo "E2E_TEST=${{ secrets.E2E_TEST }}" >> .env.e2e
+        echo "E2E_URL=${{ secrets.E2E_URL }}" >> .env.e2e
         chmod 600 .env.e2e
-      env:
-        DB_URL: ${{ secrets.DB_URL }}
 
-    - name: Setup database
-      run: npm run db:setup:ci
+      # use this for actual environment vars in my apps  
+      # env:
+      #   DB_URL: ${{ secrets.DB_URL }}
 
     - name: Run E2E tests
-      run: npm run test:e2e:ci
+      run: npm run test:e2e
 
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}

@@ -1,7 +1,12 @@
-import { drizzle } from "drizzle-orm/neon-serverless";
-import { Pool } from "@neondatabase/serverless";
-import * as schema from "./schema";
+import dbWeb from "./connect-web";
+import dbE2E from "./connect-e2e";
 
-const pool = new Pool({ connectionString: process.env.DB_URL! });
-export const db = drizzle(pool, { schema });
+let db;
 
+if (!process.env.E2E_TEST || process.env.E2E_TEST === "false") {
+    db = dbWeb;
+} else {
+    db = dbE2E;
+}    
+
+export { db };
