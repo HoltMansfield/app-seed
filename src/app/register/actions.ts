@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcryptjs";
 import { redirect } from "next/navigation";
 import * as yup from "yup";
-import { RegisterFormInputs, schema } from "./page";
+import { RegisterFormInputs, schema } from "./schema";
 
 export async function registerAction(data: RegisterFormInputs) {
   const { email, password } = data;
