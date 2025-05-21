@@ -4,8 +4,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useState, useTransition } from "react";
 import { registerAction } from "./actions";
-
 import { schema, RegisterFormInputs } from "./schema";
+import ServerError from "@/components/forms/ServerError";
+import SubmitButton from "@/components/forms/SubmitButton";
 
 export default function RegisterPage() {
   const [isPending, startTransition] = useTransition();
@@ -56,16 +57,8 @@ export default function RegisterPage() {
               {errors.password.message}
             </div>
           )}
-          <button
-            type="submit"
-            className="bg-blue-600 text-white rounded px-4 py-2"
-            disabled={isPending}
-          >
-            {isPending ? "Registering..." : "Register"}
-          </button>
-          {serverError && (
-            <div className="text-sm text-center mt-2 text-red-600">{serverError}</div>
-          )}
+          <SubmitButton isPending={isPending}>Register</SubmitButton>
+          <ServerError message={serverError} />
         </form>
       </div>
     </main>
