@@ -40,7 +40,6 @@ export default function RegisterPage() {
         <h1 className="text-2xl font-bold mb-4">Register</h1>
         <FormProvider {...methods}>
           <Form onSubmit={handleSubmit(onSubmit)}>
-            {state?.error && <ServerError message={state.error} />}
             <TextInput
               name="email"
               type="email"
@@ -57,6 +56,7 @@ export default function RegisterPage() {
               autoComplete="new-password"
               disabled={isPending}
             />
+            {state?.error && <ServerError message={state.error} />}
             <SubmitButton isPending={isPending}>Register</SubmitButton>
           </Form>
         </FormProvider>
