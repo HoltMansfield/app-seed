@@ -1,32 +1,38 @@
 "use client";
 import { useForm, FormProvider } from "react-hook-form";
-import { Theme, TextField } from "@radix-ui/themes";
+import { startTransition, useActionState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useState, useTransition } from "react";
 import { registerAction } from "./actions";
 import { schema, RegisterFormInputs } from "./schema";
 import ServerError from "@/components/forms/ServerError";
 import SubmitButton from "@/components/forms/SubmitButton";
 import TextInput from "@/components/forms/TextInput";
 import Form from "@/components/forms/Form";
+import { redirect } from "next/navigation";
 
 export default function RegisterPage() {
-  const [isPending, startTransition] = useTransition();
-  const [serverError, setServerError] = useState("");
+  const [state, formAction, isPending] = useActionState(
+    registerAction,
+    undefined
+  );
   const methods = useForm<RegisterFormInputs>({
     resolver: yupResolver(schema),
   });
-  const { handleSubmit, formState: { errors } } = methods;
+  const {
+    handleSubmit,
+    formState: { errors },
+  } = methods;
 
-  const onSubmit = (data: RegisterFormInputs) => {
-    setServerError("");
+  const onSubmit = async (data: RegisterFormInputs) => {
     startTransition(() => {
-      registerAction(data).catch((err) => {
-        setServerError(err.message || "Registration failed");
-      });
+      formAction(data);
     });
   };
+
+  if (state?.success) {
+    redirect("/login");
+  }
 
   return (
     <main className="flex flex-col items-center min-h-screen gap-8 mt-10">
@@ -34,6 +40,7 @@ export default function RegisterPage() {
         <h1 className="text-2xl font-bold mb-4">Register</h1>
         <FormProvider {...methods}>
           <Form onSubmit={handleSubmit(onSubmit)}>
+            {state?.error && <ServerError message={state.error} />}
             <TextInput
               name="email"
               type="email"
@@ -51,11 +58,9 @@ export default function RegisterPage() {
               disabled={isPending}
             />
             <SubmitButton isPending={isPending}>Register</SubmitButton>
-            <ServerError message={serverError} />
           </Form>
         </FormProvider>
       </div>
     </main>
-  )
+  );
 }
-
