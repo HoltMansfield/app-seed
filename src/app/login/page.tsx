@@ -20,10 +20,11 @@ export default async function LoginPage() {
   const onSubmit = (data: LoginFormInputs) => {
     setServerError("");
     startTransition(() => {
+
       loginAction(data).catch((err) => {
         setServerError(err.message || "Login failed");
       });
-    });
+    });  
   };
 
   return (
