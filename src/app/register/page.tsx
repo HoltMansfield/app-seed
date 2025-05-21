@@ -1,11 +1,14 @@
 "use client";
 import { useForm } from "react-hook-form";
+import { Theme, TextField } from "@radix-ui/themes";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useState, useTransition } from "react";
 import { registerAction } from "./actions";
-
 import { schema, RegisterFormInputs } from "./schema";
+import ServerError from "@/components/forms/ServerError";
+import SubmitButton from "@/components/forms/SubmitButton";
+import TextInput from "@/components/forms/TextInput";
 
 export default function RegisterPage() {
   const [isPending, startTransition] = useTransition();
@@ -28,47 +31,33 @@ export default function RegisterPage() {
   };
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen gap-8">
+    <main className="flex flex-col items-center min-h-screen gap-8 mt-10">
       <div className="max-w-md w-full">
         <h1 className="text-2xl font-bold mb-4">Register</h1>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-          <input
+          <TextInput
+            id="email"
             type="email"
-            {...register("email")}
+            label="Email"
             placeholder="Email"
-            className="border rounded px-3 py-2"
             autoComplete="email"
+            error={errors.email?.message}
+            {...register("email")}
           />
-          {errors.email && (
-            <div className="text-red-600 text-xs italic" role="alert">
-              {errors.email.message}
-            </div>
-          )}
-          <input
+          <TextInput
+            id="password"
             type="password"
-            {...register("password")}
+            label="Password"
             placeholder="Password"
-            className="border rounded px-3 py-2"
             autoComplete="new-password"
+            error={errors.password?.message}
+            {...register("password")}
           />
-          {errors.password && (
-            <div className="text-red-600 text-xs italic" role="alert">
-              {errors.password.message}
-            </div>
-          )}
-          <button
-            type="submit"
-            className="bg-blue-600 text-white rounded px-4 py-2"
-            disabled={isPending}
-          >
-            {isPending ? "Registering..." : "Register"}
-          </button>
-          {serverError && (
-            <div className="text-sm text-center mt-2 text-red-600">{serverError}</div>
-          )}
+          <SubmitButton isPending={isPending}>Register</SubmitButton>
+          <ServerError message={serverError} />
         </form>
       </div>
     </main>
-  );
+  )
 }
 
