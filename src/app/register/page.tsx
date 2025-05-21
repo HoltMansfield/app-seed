@@ -9,6 +9,7 @@ import { schema, RegisterFormInputs } from "./schema";
 import ServerError from "@/components/forms/ServerError";
 import SubmitButton from "@/components/forms/SubmitButton";
 import TextInput from "@/components/forms/TextInput";
+import Form from "@/components/forms/Form";
 
 export default function RegisterPage() {
   const [isPending, startTransition] = useTransition();
@@ -32,7 +33,7 @@ export default function RegisterPage() {
       <div className="max-w-md w-full">
         <h1 className="text-2xl font-bold mb-4">Register</h1>
         <FormProvider {...methods}>
-          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+          <Form onSubmit={handleSubmit(onSubmit)}>
             <TextInput
               name="email"
               type="email"
@@ -51,7 +52,7 @@ export default function RegisterPage() {
             />
             <SubmitButton isPending={isPending}>Register</SubmitButton>
             <ServerError message={serverError} />
-          </form>
+          </Form>
         </FormProvider>
       </div>
     </main>
