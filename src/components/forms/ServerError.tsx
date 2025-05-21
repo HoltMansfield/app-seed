@@ -6,6 +6,7 @@ interface ServerErrorProps {
 
 export function ServerError({ message }: ServerErrorProps) {
   if (!message) return null;
+  if (message === "NEXT_REDIRECT") return null;
 
   return (
     <div
