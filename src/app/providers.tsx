@@ -1,7 +1,7 @@
 "use client";
 
-// import { Flowbite } from "flowbite-react";
+import { Theme } from "@radix-ui/themes";
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+  return <Theme>{children}</Theme>;
 }

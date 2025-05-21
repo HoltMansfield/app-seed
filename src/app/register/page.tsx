@@ -1,5 +1,6 @@
 "use client";
 import { useForm } from "react-hook-form";
+import { Theme, TextField } from "@radix-ui/themes";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useState, useTransition } from "react";
@@ -33,11 +34,12 @@ export default function RegisterPage() {
       <div className="max-w-md w-full">
         <h1 className="text-2xl font-bold mb-4">Register</h1>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-          <input
+          <label htmlFor="email" className="font-medium">Email</label>
+          <TextField.Root
+            id="email"
             type="email"
             {...register("email")}
             placeholder="Email"
-            className="border rounded px-3 py-2"
             autoComplete="email"
           />
           {errors.email && (
@@ -45,11 +47,12 @@ export default function RegisterPage() {
               {errors.email.message}
             </div>
           )}
-          <input
+          <label htmlFor="password" className="font-medium">Password</label>
+          <TextField.Root            
+            id="password"
             type="password"
             {...register("password")}
             placeholder="Password"
-            className="border rounded px-3 py-2"
             autoComplete="new-password"
           />
           {errors.password && (
@@ -62,6 +65,6 @@ export default function RegisterPage() {
         </form>
       </div>
     </main>
-  );
+  )
 }
 
