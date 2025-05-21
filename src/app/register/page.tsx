@@ -1,67 +1,79 @@
-import { db } from "@/db/connect";
-import { users } from "@/db/schema";
-import { eq } from "drizzle-orm";
-import { v4 as uuidv4 } from "uuid";
-import bcrypt from "bcryptjs";
-import { redirect } from "next/navigation";
+"use client";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { useState, useTransition } from "react";
+import { registerAction } from "./actions";
 
-export default async function RegisterPage({ searchParams }: { searchParams?: { success?: string; error?: string } }) {
-  let message = "";
+export const schema = yup.object({
+  email: yup.string().email("Invalid email").required("Email is required"),
+  password: yup.string().min(8, "Password must be at least 8 characters").required("Password is required"),
+});
 
-  const params = await searchParams;
-  if (params?.success) message = "Registration successful! You can now log in.";
-  if (params?.error) message = params.error;
+export type RegisterFormInputs = yup.InferType<typeof schema>;
 
-  async function handleRegister(formData: FormData) {
-    "use server";
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
-    if (!email || !password) {
-      redirect("/register?error=Email and password required.");
-    }
-    // Check for db being null
-    if (!db) {
-      redirect("/register?error=Database connection error. Please try again later.");
-    }
-    // Check if user already exists
-    const existing = await db.select().from(users).where(eq(users.email, email));
-    if (existing.length > 0) {
-      redirect("/register?error=User already exists.");
-    }
-    const passwordHash = await bcrypt.hash(password, 10);
-    await db.insert(users).values({
-      id: uuidv4(),
-      email,
-      passwordHash,
+export default function RegisterPage() {
+  const [isPending, startTransition] = useTransition();
+  const [serverError, setServerError] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RegisterFormInputs>({
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmit = (data: RegisterFormInputs) => {
+    setServerError("");
+    startTransition(() => {
+      registerAction(data).catch((err) => {
+        setServerError(err.message || "Registration failed");
+      });
     });
-    redirect("/register?success=1");
-  }
+  };
 
   return (
     <main className="flex flex-col items-center justify-center min-h-screen gap-8">
       <div className="max-w-md w-full">
         <h1 className="text-2xl font-bold mb-4">Register</h1>
-        <form action={handleRegister} className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
           <input
             type="email"
-            name="email"
+            {...register("email")}
             placeholder="Email"
-            required
             className="border rounded px-3 py-2"
+            autoComplete="email"
           />
+          {errors.email && (
+            <div className="text-red-600 text-xs italic" role="alert">
+              {errors.email.message}
+            </div>
+          )}
           <input
             type="password"
-            name="password"
+            {...register("password")}
             placeholder="Password"
-            required
             className="border rounded px-3 py-2"
+            autoComplete="new-password"
           />
-          <button type="submit" className="bg-blue-600 text-white rounded px-4 py-2">
-            Register
+          {errors.password && (
+            <div className="text-red-600 text-xs italic" role="alert">
+              {errors.password.message}
+            </div>
+          )}
+          <button
+            type="submit"
+            className="bg-blue-600 text-white rounded px-4 py-2"
+            disabled={isPending}
+          >
+            {isPending ? "Registering..." : "Register"}
           </button>
+          {serverError && (
+            <div className="text-sm text-center mt-2 text-red-600">{serverError}</div>
+          )}
         </form>
-        {message && <div className="text-sm text-center mt-2">{message}</div>}
       </div>
     </main>
   );
 }
+

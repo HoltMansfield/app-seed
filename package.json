@@ -24,6 +24,7 @@
     "e2e:migrate": "node scripts/drizzle-e2e.cjs migrate"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.0.1",
     "@neondatabase/serverless": "^1.0.0",
     "@radix-ui/react-slot": "^1.2.0",
     "bcryptjs": "^3.0.2",
@@ -37,9 +38,11 @@
     "pg": "^8.16.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-hook-form": "^7.56.4",
     "tailwind-merge": "^3.2.0",
     "uuid": "^11.1.0",
-    "ws": "^8.18.2"
+    "ws": "^8.18.2",
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
