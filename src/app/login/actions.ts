@@ -11,9 +11,7 @@ export async function loginAction(
   data: { email: string; password: string }
 ): Promise<{ error?: string; success?: boolean } | undefined> {
   const { email, password } = data;
-  if (!db) {
-    return { error: "Database connection error. Please try again later." };
-  }
+
   const found = await db.select().from(users).where(eq(users.email, email));
   if (found.length === 0) {
     return { error: "Invalid credentials." };

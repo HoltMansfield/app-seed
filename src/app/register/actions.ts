@@ -19,9 +19,7 @@ export async function registerAction(state: { error?: string; message?: string; 
     return { error: "Unknown validation error" };
   }
 
-  if (!db) {
-    return { error: "Database connection error. Please try again later." };
-  }
+
 
   const existing = await db.select().from(users).where(eq(users.email, email));
   if (existing.length > 0) {
