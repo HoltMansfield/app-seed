@@ -6,9 +6,9 @@ import * as schema from "./schema";
 let db: NodePgDatabase<typeof schema> | null;
 
 if (!process.env.E2E_TEST || process.env.E2E_TEST === "false") {
-    db = dbWeb;
+  db = dbWeb;
 } else {
-    db = dbE2E;
+  db = dbE2E;
 }
 
 export { db };

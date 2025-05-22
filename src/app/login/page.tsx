@@ -1,40 +1,33 @@
-import { db } from "@/db/connect";
-import { users } from "@/db/schema";
-import bcrypt from "bcryptjs";
-import { cookies } from "next/headers";
+"use client";
+import { useForm, FormProvider } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { startTransition, useActionState } from "react";
+import { loginAction } from "./actions";
+import { schema, LoginFormInputs } from "./schema";
+import ServerError from "@/components/forms/ServerError";
+import SubmitButton from "@/components/forms/SubmitButton";
+import TextInput from "@/components/forms/TextInput";
+import Form from "@/components/forms/Form";
+
 import { redirect } from "next/navigation";
-import { eq } from "drizzle-orm";
 
-export default async function LoginPage({ searchParams }: { searchParams?: { error?: string } }) {
-  let message = "";
-  const result = await searchParams;
-  if (result?.error) message = result.error;
+export default function LoginPage() {
+  const [state, formAction, isPending] = useActionState(loginAction, undefined);
+  const methods = useForm<LoginFormInputs>({
+    resolver: yupResolver(schema),
+  });
+  const {
+    handleSubmit,
+    formState: { errors },
+  } = methods;
 
-  async function handleLogin(formData: FormData) {
-    "use server";
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
-    if (!email || !password) {
-      redirect("/login?error=Email and password required.");
-    }
-    // Check for db being null
-    if (!db) {
-      redirect("/login?error=Database connection error. Please try again later.");
-    }
-    
-    // Find user
-    const found = await db.select().from(users).where(eq(users.email, email));
-    if (found.length === 0) {
-      redirect("/login?error=Invalid credentials.");
-    }
-    const user = found[0];
-    const valid = await bcrypt.compare(password, user.passwordHash ?? "");
-    if (!valid) {
-      redirect("/login?error=Invalid credentials.");
-    }
-    const cookieStore = await cookies();
-    cookieStore.set("session_user", user.email ?? "", { path: "/" });
+  const onSubmit = async (data: LoginFormInputs) => {
+    startTransition(() => {
+      formAction(data);
+    });
+  };
 
+  if (state?.success) {
     redirect("/");
   }
 
@@ -42,31 +35,30 @@ export default async function LoginPage({ searchParams }: { searchParams?: { err
     <main className="flex flex-col items-center justify-center min-h-screen gap-8">
       <div className="max-w-md w-full">
         <h1 className="text-2xl font-bold mb-4">Login</h1>
-        <form action={handleLogin} className="flex flex-col gap-4">
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            required
-            className="border rounded px-3 py-2"
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            required
-            className="border rounded px-3 py-2"
-          />
-          <button type="submit" className="bg-blue-600 text-white rounded px-4 py-2">
-            Login
-          </button>
-        </form>
-        {message && <div className="text-sm text-center mt-2">{message}</div>}
+        <FormProvider {...methods}>
+          <Form onSubmit={handleSubmit(onSubmit)}>
+            <TextInput
+              name="email"
+              type="email"
+              label="Email"
+              placeholder="Email"
+              autoComplete="email"
+              disabled={isPending}
+            />
+            <TextInput
+              name="password"
+              type="password"
+              label="Password"
+              placeholder="Password"
+              autoComplete="new-password"
+              disabled={isPending}
+            />
+            {state?.error && <ServerError message={state.error} />}
+            <SubmitButton isPending={isPending}>Login</SubmitButton>
+          </Form>
+        </FormProvider>
         <div className="mt-4 text-center">
-          <a
-            href="/register"
-            className="text-blue-600 hover:underline text-sm"
-          >
+          <a href="/register" className="text-blue-600 hover:underline text-sm">
             Create an account
           </a>
         </div>
