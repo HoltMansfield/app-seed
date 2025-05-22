@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   description: "Next.js app with Drizzle, Tailwind, and Google Auth",
 };
 
+import NavBar from "@/components/NavBar";
+
 export default function RootLayout({
   children,
 }: {
@@ -19,6 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <NavBar />
         <Providers>{children}</Providers>
       </body>
     </html>
