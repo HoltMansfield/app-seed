@@ -1,7 +1,7 @@
 "use client";
 import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useState, useTransition } from "react";
+import { startTransition, useActionState } from "react";
 import { loginAction } from "./actions";
 import { schema, LoginFormInputs } from "./schema";
 import ServerError from "@/components/forms/ServerError";
@@ -9,23 +9,27 @@ import SubmitButton from "@/components/forms/SubmitButton";
 import TextInput from "@/components/forms/TextInput";
 import Form from "@/components/forms/Form";
 
-export default async function LoginPage() {
-  const [isPending, startTransition] = useTransition();
-  const [serverError, setServerError] = useState("");
+import { redirect } from "next/navigation";
+
+export default function LoginPage() {
+  const [state, formAction, isPending] = useActionState(loginAction, undefined);
   const methods = useForm<LoginFormInputs>({
     resolver: yupResolver(schema),
   });
-  const { handleSubmit, formState: { errors } } = methods;
+  const {
+    handleSubmit,
+    formState: { errors },
+  } = methods;
 
-  const onSubmit = (data: LoginFormInputs) => {
-    setServerError("");
+  const onSubmit = async (data: LoginFormInputs) => {
     startTransition(() => {
-
-      loginAction(data).catch((err) => {
-        setServerError(err.message || "Login failed");
-      });
-    });  
+      formAction(data);
+    });
   };
+
+  if (state?.success) {
+    redirect("/");
+  }
 
   return (
     <main className="flex flex-col items-center justify-center min-h-screen gap-8">
@@ -49,15 +53,12 @@ export default async function LoginPage() {
               autoComplete="new-password"
               disabled={isPending}
             />
+            {state?.error && <ServerError message={state.error} />}
             <SubmitButton isPending={isPending}>Login</SubmitButton>
-            {/* <ServerError message={serverError} /> */}
           </Form>
         </FormProvider>
         <div className="mt-4 text-center">
-          <a
-            href="/register"
-            className="text-blue-600 hover:underline text-sm"
-          >
+          <a href="/register" className="text-blue-600 hover:underline text-sm">
             Create an account
           </a>
         </div>

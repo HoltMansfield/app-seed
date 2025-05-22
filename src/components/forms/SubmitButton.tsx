@@ -4,10 +4,11 @@ import "./submit-button-pulse.css";
 
 interface SubmitButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   isPending: boolean;
+  pendingText?: string;
   children: React.ReactNode;
 }
 
-export function SubmitButton({ isPending, children, ...rest }: SubmitButtonProps) {
+export function SubmitButton({ isPending, children, pendingText = "Please wait...", ...rest }: SubmitButtonProps) {
   return (
     <button
       type="submit"
@@ -18,7 +19,7 @@ export function SubmitButton({ isPending, children, ...rest }: SubmitButtonProps
       disabled={isPending}
       {...rest}
     >
-      {isPending ? "Registering..." : children}
+      {isPending ? pendingText : children}
     </button>
   );
 }
