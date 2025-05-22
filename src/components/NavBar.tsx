@@ -4,7 +4,7 @@ import { useState } from "react";
 export default function NavBar() {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   return (
-    <nav className="flex items-center justify-between flex-wrap bg-slate-500 py-1 pt-[5px] lg:py-4 lg:px-12 shadow border-solid border-t-2 border-blue-900">
+    <nav className="sticky top-0 z-50 flex items-center justify-between flex-wrap bg-slate-500 py-1 pt-[5px] lg:py-4 lg:px-12 shadow border-solid border-t-2 border-blue-900">
       <div className="flex justify-between lg:w-auto w-full lg:border-b-0 pl-6 pr-2 pb-2 lg:pb-0">
         <div className="flex items-center flex-shrink-0 text-gray-800 mr-16">
           <span className="font-semibold text-xl tracking-tight text-slate-200">

@@ -1,4 +1,4 @@
-import '@radix-ui/themes/styles.css';
+import "@radix-ui/themes/styles.css";
 import type { Metadata } from "next";
 import "./globals.css";
 import { Inter } from "next/font/google";
@@ -20,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className}`}>
         <NavBar />
         <Providers>{children}</Providers>
       </body>

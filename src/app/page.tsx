@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { db } from "@/db/connect";
 import { users } from "@/db/schema";
 import { count } from "drizzle-orm";
@@ -29,12 +29,19 @@ export default async function Home() {
         <CardHeader>
           <CardTitle>Welcome, {sessionUser}!</CardTitle>
         </CardHeader>
-        <div className="mt-4 text-sm text-gray-500">
-          {`Total users in DB: ${userCount}`}
-        </div>
-        <form action={logoutAction} className="mt-6">
-          <button type="submit" className="bg-red-600 text-white rounded px-4 py-2">Logout</button>
-        </form>
+        <CardContent>
+          <div className="mt-4 text-sm text-gray-500">
+            {`Total users in DB: ${userCount}`}
+          </div>
+          <form action={logoutAction} className="mt-6">
+            <button
+              type="submit"
+              className="bg-red-600 text-white rounded px-4 py-2"
+            >
+              Logout
+            </button>
+          </form>
+        </CardContent>
       </Card>
     </main>
   );
