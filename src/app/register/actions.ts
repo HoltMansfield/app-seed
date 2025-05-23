@@ -6,8 +6,8 @@ import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcryptjs";
 import * as yup from "yup";
 import { RegisterFormInputs, schema } from "./schema";
-import { sendWelcomeEmail } from "@/actions/emails";
-import * as Sentry from "@sentry/nextjs";
+//import { sendWelcomeEmail } from "@/actions/emails";
+//import * as Sentry from "@sentry/nextjs";
 
 export async function registerAction(
   state: { error?: string; message?: string; success?: boolean } | undefined,
@@ -45,7 +45,7 @@ export async function registerAction(
   //     await sendWelcomeEmail(email);
   //   } catch (error) {
   //     console.error("Failed to send welcome email:", error);
-  //     Sentry.captureException(error);
+  //     //Sentry.captureException(error);
   //   }
   // }
 

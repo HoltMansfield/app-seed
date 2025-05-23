@@ -1,4 +1,4 @@
-import StripeWelcomeEmail from "react-email-starter/emails/stripe-welcome";
+import StripeWelcomeEmail from "@/react-email/emails/stripe-welcome";
 import { Resend } from "resend";
 
 export const sendWelcomeEmail = async (email: string) => {
