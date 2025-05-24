@@ -1,3 +1,4 @@
+import { H } from "@/highlight-server";
 import StripeWelcomeEmail from "@/react-email/emails/stripe-welcome";
 import { Resend } from "resend";
 

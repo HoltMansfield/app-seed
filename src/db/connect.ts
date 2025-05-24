@@ -5,12 +5,12 @@ import * as schema from "./schema";
 
 let db: NodePgDatabase<typeof schema>;
 
-if (!process.env.E2E_TEST || process.env.E2E_TEST === "false") {
-  if (!dbWeb) throw new Error("dbWeb is not configured!");
-  db = dbWeb;
-} else {
+if (process.env.APP_ENV === "E2E") {
   if (!dbE2E) throw new Error("dbE2E is not configured!");
   db = dbE2E;
+} else {
+  if (!dbWeb) throw new Error("dbWeb is not configured!");
+  db = dbWeb;
 }
 
 export { db };
