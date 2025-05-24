@@ -1,4 +1,5 @@
 "use server";
+import { H } from "@/highlight-server";
 import { db } from "@/db/connect";
 import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
@@ -39,13 +40,14 @@ export async function registerAction(
     passwordHash,
   });
 
-  // if (process.env.E2E_TEST !== "true") {
-  //   try {
-  //     await sendWelcomeEmail(email);
-  //   } catch (error) {
-  //     console.error("Failed to send welcome email:", error);
-  //   }
-  // }
+  if (process.env.APP_ENV !== "E2E") {
+    try {
+      //await sendWelcomeEmail(email);
+    } catch (error) {
+      console.error("Failed to send welcome email:", error);
+      H.consumeError(error as Error);
+    }
+  }
 
   return { message: "Action successful!", success: true };
 }
