@@ -20,6 +20,11 @@ jobs:
         with:
           node-version: 20
 
+      - name: Install react-email dependencies
+        run: |
+          cd src/react-email
+          npm install
+
       - name: Install dependencies
         run: npm ci
 
