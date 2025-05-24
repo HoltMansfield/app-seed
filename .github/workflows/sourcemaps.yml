@@ -36,6 +36,4 @@ jobs:
           HIGHLIGHT_API_KEY: ${{ secrets.HIGHLIGHT_API_KEY }}
         run: |
           npx @highlight-run/sourcemap-uploader upload \
-            --apiKey "$HIGHLIGHT_API_KEY" \
-            --projectID ney02ovd \
             --path .next
