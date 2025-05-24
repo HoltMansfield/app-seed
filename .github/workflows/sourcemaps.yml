@@ -32,9 +32,7 @@ jobs:
         run: npm run build
 
       - name: Upload Highlight sourcemaps
-        env:
-          HIGHLIGHT_API_KEY: ${{ secrets.HIGHLIGHT_API_KEY }}
         run: |
           npx @highlight-run/sourcemap-uploader upload \
-            --apiKey "$HIGHLIGHT_API_KEY" \
+            --apiKey "${{ secrets.HIGHLIGHT_API_KEY }}" \
             --path .next
