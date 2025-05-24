@@ -15,7 +15,6 @@ export async function registerAction(
 ): Promise<
   { error?: string; message?: string; success?: boolean } | undefined
 > {
-  throw new Error("Uncle JUNE");
   const { email, password } = data;
   // Validate using yup schema
   try {
