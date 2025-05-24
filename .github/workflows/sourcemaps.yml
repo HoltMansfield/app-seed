@@ -31,14 +31,14 @@ jobs:
       - name: Build Next.js app
         run: npm run build
 
-      - name: Install Highlight CLI
-        run: npm install -g @highlight-run/cli
+      - name: Install Highlight Sourcemap Uploader
+        run: npm install -g @highlight-run/sourcemap-uploader
 
       - name: Upload Highlight sourcemaps
         env:
           HIGHLIGHT_API_KEY: ${{ secrets.HIGHLIGHT_API_KEY }}
         run: |
-          highlight sourcemaps upload \
+          highlight-sourcemap-uploader upload \
             --apiKey "$HIGHLIGHT_API_KEY" \
             --projectID ney02ovd \
             --path .next
