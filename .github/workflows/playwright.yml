@@ -33,10 +33,10 @@ jobs:
 
       - name: Create .env.e2e
         run: |
-          echo "DB_URL=${{ secrets.DB_URL }}" > .env.e2e
+          echo "APP_ENV=${{ secrets.APP_ENV }}" > .env.e2e
+          echo "DB_URL=${{ secrets.DB_URL }}" >> .env.e2e
           echo "MIGRATIONS_PATH=${{ secrets.MIGRATIONS_PATH }}" >> .env.e2e
           echo "E2E_URL=${{ secrets.E2E_URL }}" >> .env.e2e
-          echo "APP_ENV=${{ secrets.APP_ENV }}" >> .env.e2e
           chmod 600 .env.e2e
 
         # use this for actual environment vars in my apps
