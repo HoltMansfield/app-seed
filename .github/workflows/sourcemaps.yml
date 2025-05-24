@@ -32,6 +32,9 @@ jobs:
       - name: Build Next.js app
         run: npm run build
 
+      - name: Log api key
+        run: echo "${{ secrets.HIGHLIGHT_API_KEY }}"
+
       - name: Upload Highlight sourcemaps
         run: |
           npx @highlight-run/sourcemap-uploader upload \
