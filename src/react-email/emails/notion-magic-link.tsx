@@ -105,7 +105,7 @@ const container = {
 const h1 = {
   color: '#333',
   fontFamily:
-    "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
+    "-apple-system, BlinkMacSystemFont, &apos;Segoe UI&apos;, &apos;Roboto&apos;, &apos;Oxygen&apos;, &apos;Ubuntu&apos;, &apos;Cantarell&apos;, &apos;Fira Sans&apos;, &apos;Droid Sans&apos;, &apos;Helvetica Neue&apos;, sans-serif",
   fontSize: '24px',
   fontWeight: 'bold',
   margin: '40px 0',
@@ -115,7 +115,7 @@ const h1 = {
 const link = {
   color: '#2754C5',
   fontFamily:
-    "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
+    "-apple-system, BlinkMacSystemFont, &apos;Segoe UI&apos;, &apos;Roboto&apos;, &apos;Oxygen&apos;, &apos;Ubuntu&apos;, &apos;Cantarell&apos;, &apos;Fira Sans&apos;, &apos;Droid Sans&apos;, &apos;Helvetica Neue&apos;, sans-serif",
   fontSize: '14px',
   textDecoration: 'underline',
 };
@@ -123,7 +123,7 @@ const link = {
 const text = {
   color: '#333',
   fontFamily:
-    "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
+    "-apple-system, BlinkMacSystemFont, &apos;Segoe UI&apos;, &apos;Roboto&apos;, &apos;Oxygen&apos;, &apos;Ubuntu&apos;, &apos;Cantarell&apos;, &apos;Fira Sans&apos;, &apos;Droid Sans&apos;, &apos;Helvetica Neue&apos;, sans-serif",
   fontSize: '14px',
   margin: '24px 0',
 };
@@ -131,7 +131,7 @@ const text = {
 const footer = {
   color: '#898989',
   fontFamily:
-    "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
+    "-apple-system, BlinkMacSystemFont, &apos;Segoe UI&apos;, &apos;Roboto&apos;, &apos;Oxygen&apos;, &apos;Ubuntu&apos;, &apos;Cantarell&apos;, &apos;Fira Sans&apos;, &apos;Droid Sans&apos;, &apos;Helvetica Neue&apos;, sans-serif",
   fontSize: '12px',
   lineHeight: '22px',
   marginTop: '12px',

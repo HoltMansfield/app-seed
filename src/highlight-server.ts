@@ -1,6 +1,6 @@
 import { H } from "@highlight-run/node";
 
-const highlight = H.init({
+H.init({
   projectID: "ney02ovd",
   serviceName: "nextjs-server",
   environment: process.env.NODE_ENV,
@@ -12,7 +12,7 @@ if (process.env.APP_ENV !== "E2E") {
       H.consumeError?.(error);
     });
 
-    process.on("unhandledRejection", (reason: any) => {
+    process.on("unhandledRejection", (reason: unknown) => {
       H.consumeError?.(
         reason instanceof Error ? reason : new Error(String(reason))
       );
