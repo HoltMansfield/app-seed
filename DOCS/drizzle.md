@@ -8,7 +8,6 @@ npx drizzle-kit check
 npx drizzle-kit up
 npx drizzle-kit studio
 
-
 For a new DB:
 generate
 migrate
