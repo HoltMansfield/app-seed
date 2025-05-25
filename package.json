@@ -21,7 +21,8 @@
     "start:e2e-db": "node scripts/start-e2e-db.cjs",
     "stop:e2e-db": "node scripts/stop-e2e-db.cjs",
     "e2e:generate": "node scripts/drizzle-e2e.cjs generate",
-    "e2e:migrate": "node scripts/drizzle-e2e.cjs migrate"
+    "e2e:migrate": "node scripts/drizzle-e2e.cjs migrate",
+    "scan-actions": "npx actions-scan && open http://localhost:3000/list-actions"
   },
   "dependencies": {
     "@highlight-run/next": "^7.9.23",
@@ -63,6 +64,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.3.1",
     "mkcert": "^3.2.0",
+    "nextjs-server-action-tester": "^1.0.4",
     "npm-run-all": "^4.1.5",
     "start-server-and-test": "^2.0.12",
     "tailwindcss": "^4",
