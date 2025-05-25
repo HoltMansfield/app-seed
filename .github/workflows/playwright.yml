@@ -6,6 +6,7 @@ on:
     branches: [main, master]
 jobs:
   test:
+    name: E2E Tests
     environment: e2e # this is where environment variables are set
     timeout-minutes: 60
     runs-on: ubuntu-latest
