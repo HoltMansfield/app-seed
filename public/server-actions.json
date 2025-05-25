@@ -1,0 +1,55 @@
+[
+  {
+    "id": "tVYqevsL",
+    "name": "POST",
+    "path": "/Users/holtmansfield/CascadeProjects/next-drizzle-tailwind-auth/src/app/api/list-actions/route.ts",
+    "export": "named",
+    "typeInfo": {
+      "parameters": [
+        {
+          "name": "req",
+          "type": "TSTypeReference"
+        }
+      ],
+      "returnType": "unknown"
+    }
+  },
+  {
+    "id": "YcnbjpuD",
+    "name": "loginAction",
+    "path": "/Users/holtmansfield/CascadeProjects/next-drizzle-tailwind-auth/src/app/login/actions.ts",
+    "export": "named",
+    "typeInfo": {
+      "parameters": [
+        {
+          "name": "state",
+          "type": "TSUnionType"
+        },
+        {
+          "name": "data",
+          "type": "TSTypeLiteral"
+        }
+      ],
+      "returnType": "TSTypeReference"
+    }
+  },
+  {
+    "id": "NLSXXtkb",
+    "name": "registerAction",
+    "path": "/Users/holtmansfield/CascadeProjects/next-drizzle-tailwind-auth/src/app/register/actions.ts",
+    "export": "named",
+    "typeInfo": {
+      "parameters": [
+        {
+          "name": "state",
+          "type": "TSUnionType"
+        },
+        {
+          "name": "data",
+          "type": "TSTypeReference"
+        }
+      ],
+      "returnType": "TSTypeReference"
+    }
+  }
+]

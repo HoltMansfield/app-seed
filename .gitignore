@@ -46,9 +46,3 @@ node_modules/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
-
-
-# nextjs-server-action-tester
-/public/server-actions.json
-/src/app/api/list-actions
-/src/app/list-actions
