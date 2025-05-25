@@ -1,7 +1,8 @@
-EMAILS:
+Email Templates:
 https://react.email/
 
-resend ?
+Email service:
+https://resend.com/
 
 ERROR LOGGING:
 https://app.highlight.io/
