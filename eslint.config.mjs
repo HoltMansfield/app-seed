@@ -11,10 +11,15 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  ...compat.extends(
+    "next/core-web-vitals",
+    "next/typescript",
+    "plugin:jsx-a11y/recommended"
+  ),
   {
     plugins: {
       "require-highlight-import": requireHighlightImport,
+      "jsx-a11y": require.resolve("eslint-plugin-jsx-a11y")
     },
     rules: {
       "require-highlight-import/require-highlight-import": "warn",
@@ -23,6 +28,7 @@ const eslintConfig = [
         "warn",
         { varsIgnorePattern: "^H$" },
       ],
+      // You can override or add jsx-a11y rules here if needed
     },
   },
 ];
