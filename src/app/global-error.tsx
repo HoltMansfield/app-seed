@@ -8,7 +8,7 @@ export default function GlobalError({
   error: Error & { digest?: string };
 }) {
   return (
-    <html>
+    <html lang="en">
       <body>
         <NextError statusCode={500} title={error.message} />
       </body>

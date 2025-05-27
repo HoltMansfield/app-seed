@@ -1,16 +1,14 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
-import requireHighlightImport from "./eslint-rules/require-highlight-import.js";
+const { FlatCompat } = require("@eslint/eslintrc");
+const jsxA11y = require("eslint-plugin-jsx-a11y");
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
+// __dirname is available by default in CommonJS
 const compat = new FlatCompat({
   baseDirectory: __dirname,
 });
 
-const eslintConfig = [
+const requireHighlightImport = require("./eslint-rules/require-highlight-import.cjs");
+
+module.exports = [
   ...compat.extends(
     "next/core-web-vitals",
     "next/typescript",
@@ -19,7 +17,7 @@ const eslintConfig = [
   {
     plugins: {
       "require-highlight-import": requireHighlightImport,
-      "jsx-a11y": require.resolve("eslint-plugin-jsx-a11y")
+      "jsx-a11y": jsxA11y
     },
     rules: {
       "require-highlight-import/require-highlight-import": "warn",
@@ -31,6 +29,5 @@ const eslintConfig = [
       // You can override or add jsx-a11y rules here if needed
     },
   },
+  // ...any other configs
 ];
-
-export default eslintConfig;

@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function NavBar() {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
@@ -32,39 +33,39 @@ export default function NavBar() {
         } lg:block transition-all duration-200`}
       >
         <div className="text-md font-bold lg:flex-grow">
-          <a
-            href="#"
+          <button
+            type="button"
             className="block lg:inline-block mt-4 lg:mt-0 text-slate-800 px-4 py-2 rounded hover:text-white hover:bg-slate-950 mr-2"
           >
             Menu 1
-          </a>
-          <a
-            href="#"
+          </button>
+          <button
+            type="button"
             className="block lg:inline-block mt-4 lg:mt-0 text-slate-800 px-4 py-2 rounded hover:text-white hover:bg-slate-950 mr-2"
           >
             Menu 2
-          </a>
-          <a
-            href="#"
+          </button>
+          <button
+            type="button"
             className="block lg:inline-block mt-4 lg:mt-0 text-slate-800 px-4 py-2 rounded hover:text-white hover:bg-slate-950 mr-2"
           >
             Menu 3
-          </a>
+          </button>
         </div>
 
         <div className="flex">
-          <a
-            href="#"
+          <Link
+            href="/register"
             className="block text-md px-4 py-2 rounded text-slate-200 ml-2 font-bold hover:bg-slate-950 mt-4 lg:mt-0"
           >
             Sign in
-          </a>
-          <a
-            href="#"
+          </Link>
+          <Link
+            href="/login"
             className="block text-md px-4 ml-2 py-2 rounded text-slate-200 font-bold hover:bg-slate-950 mt-4 lg:mt-0"
           >
             Login
-          </a>
+          </Link>
         </div>
       </div>
     </nav>

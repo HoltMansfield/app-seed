@@ -1,7 +1,6 @@
 "use server";
 import { H } from "@/highlight-server";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import { db } from "@/db/connect";
 import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
