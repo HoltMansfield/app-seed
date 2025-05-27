@@ -1,12 +1,12 @@
 "use server";
-import { H } from "@/highlight-server";
+import { withHighlightError } from "@/highlight-error";
 import { cookies } from "next/headers";
 import { db } from "@/db/connect";
 import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import bcrypt from "bcryptjs";
 
-export async function loginAction(
+async function _loginAction(
   state: { error?: string; success?: boolean } | undefined,
   data: { email: string; password: string }
 ): Promise<{ error?: string; success?: boolean } | undefined> {
@@ -25,3 +25,5 @@ export async function loginAction(
   cookieStore.set("session_user", user.email ?? "", { path: "/" });
   return { success: true };
 }
+
+export const loginAction = withHighlightError(_loginAction);

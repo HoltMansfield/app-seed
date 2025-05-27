@@ -17,15 +17,12 @@ module.exports = [
   {
     plugins: {
       "require-highlight-import": requireHighlightImport,
-      "jsx-a11y": jsxA11y
+      "jsx-a11y": jsxA11y,
     },
     rules: {
       "require-highlight-import/require-highlight-import": "warn",
-      "no-unused-vars": ["warn", { varsIgnorePattern: "^H$" }],
-      "@typescript-eslint/no-unused-vars": [
-        "warn",
-        { varsIgnorePattern: "^H$" },
-      ],
+      "no-unused-vars": "warn",
+      "@typescript-eslint/no-unused-vars": "warn",
       // You can override or add jsx-a11y rules here if needed
     },
   },
