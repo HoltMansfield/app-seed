@@ -6,8 +6,6 @@ const compat = new FlatCompat({
   baseDirectory: __dirname,
 });
 
-const requireHighlightImport = require("./eslint-rules/require-highlight-import.cjs");
-
 module.exports = [
   ...compat.extends(
     "next/core-web-vitals",
@@ -16,11 +14,9 @@ module.exports = [
   ),
   {
     plugins: {
-      "require-highlight-import": requireHighlightImport,
       "jsx-a11y": jsxA11y,
     },
     rules: {
-      "require-highlight-import/require-highlight-import": "warn",
       "no-unused-vars": "warn",
       "@typescript-eslint/no-unused-vars": "warn",
       // You can override or add jsx-a11y rules here if needed
