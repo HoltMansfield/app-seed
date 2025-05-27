@@ -23,10 +23,7 @@ export default function LoginPage() {
   const methods = useForm<LoginFormInputs>({
     resolver: yupResolver(schema),
   });
-  const {
-    handleSubmit,
-    formState: { errors },
-  } = methods;
+  const { handleSubmit } = methods;
 
   const onSubmit = async (data: LoginFormInputs) => {
     startTransition(() => {

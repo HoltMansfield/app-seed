@@ -2,7 +2,6 @@
 import { useForm, FormProvider } from "react-hook-form";
 import { startTransition, useActionState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import { registerAction } from "./actions";
 import { schema, RegisterFormInputs } from "./schema";
 import ServerError from "@/components/forms/ServerError";
@@ -26,10 +25,7 @@ export default function RegisterPage() {
   const methods = useForm<RegisterFormInputs>({
     resolver: yupResolver(schema),
   });
-  const {
-    handleSubmit,
-    formState: { errors },
-  } = methods;
+  const { handleSubmit } = methods;
 
   const onSubmit = async (data: RegisterFormInputs) => {
     startTransition(() => {
