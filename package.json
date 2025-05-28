@@ -8,9 +8,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test:e2e": "run-s start:e2e-db db:create-schema _test:e2e:with-app stop:e2e-db",
+    "test:e2e": "run-s start:e2e-db db:create-schema build:e2e _test:e2e:with-app stop:e2e-db",
     "db:create-schema": "run-s e2e:generate e2e:migrate",
-    "_test:e2e:with-app": "start-server-and-test 'dotenv -e .env.e2e -- next dev --port 3001' http://localhost:3001 'npx dotenv -e .env.e2e -- playwright test'",
+    "_test:e2e:with-app": "run-p --race e2e:start e2e:test",
     "generate": "dotenv -e .env.local -- drizzle-kit generate",
     "migrate": "dotenv -e .env.local -- drizzle-kit migrate",
     "push": "dotenv -e .env.local -- drizzle-kit push",
@@ -21,7 +21,10 @@
     "start:e2e-db": "node scripts/start-e2e-db.cjs",
     "stop:e2e-db": "node scripts/stop-e2e-db.cjs",
     "e2e:generate": "node scripts/drizzle-e2e.cjs generate",
-    "e2e:migrate": "node scripts/drizzle-e2e.cjs migrate"
+    "e2e:migrate": "node scripts/drizzle-e2e.cjs migrate",
+    "build:e2e": "next build",
+    "e2e:start": "dotenv -e .env.e2e -- next start --port 3001",
+    "e2e:test": "npx wait-on http://localhost:3001 && dotenv -e .env.e2e -- playwright test"
   },
   "dependencies": {
     "@highlight-run/next": "^7.9.23",
@@ -69,6 +72,7 @@
     "tailwindcss": "^4",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "wait-on": "^7.0.1"
   }
 }
