@@ -1,5 +1,5 @@
 "use server";
-import { withHighlightError } from "@/highlight-error";
+import { H, withHighlightError } from "@/highlight-error";
 import { db } from "@/db/connect";
 import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
