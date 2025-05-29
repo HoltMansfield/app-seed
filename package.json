@@ -24,7 +24,7 @@
     "e2e:migrate": "node scripts/drizzle-e2e.cjs migrate",
     "build:e2e": "next build",
     "e2e:start": "dotenv -e .env.e2e -- next start --port 3001",
-    "e2e:test": "npx wait-on http://localhost:3001 && dotenv -e .env.e2e -- playwright test"
+    "e2e:test": "npx wait-on http://localhost:3001 && dotenv -e .env.e2e -- playwright test --project=anonymous --project=logged-in"
   },
   "dependencies": {
     "@highlight-run/next": "^7.9.23",
