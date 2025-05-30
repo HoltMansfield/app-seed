@@ -1,0 +1,15 @@
+{
+  "cookies": [
+    {
+      "name": "session_user",
+      "value": "e2e-test%40example.com",
+      "domain": "localhost",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

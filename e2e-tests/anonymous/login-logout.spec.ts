@@ -3,18 +3,15 @@ import { test, expect } from '@playwright/test';
 const TEST_EMAIL = 'e2e-test@example.com';
 const TEST_PASSWORD = 'e2epassword123';
 
-// Ensure anonymous users cannot access the secure page
-test('anonymous cannot access secure page', async ({ page }, testInfo) => {
-  testInfo.skip(testInfo.project.name !== 'anonymous', 'only runs in anonymous project');
+test('secure page redirects to login when not authenticated', async ({ page }) => {
+  // Try to access secure page without being logged in
   await page.goto(`${process.env.E2E_URL}/secure-page`);
+  
+  // Should redirect to login
   await expect(page).toHaveURL(`${process.env.E2E_URL}/login`);
 });
 
-// -------------------------------
-
-test('register, login, and logout flow', async ({ page }, testInfo) => {
-  testInfo.skip(testInfo.project.name !== 'anonymous', 'runs only in anonymous project');
- 
+test('register, login, and logout flow', async ({ page }) => {
   // Go to registration page
   await page.goto(`${process.env.E2E_URL}/register`);
 
