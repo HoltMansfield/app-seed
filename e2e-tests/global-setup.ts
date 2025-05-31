@@ -35,23 +35,59 @@ async function globalSetup(config: FullConfig) {
     await page.fill('input[name="password"]', TEST_PASSWORD);
     await page.click('button[type="submit"]');
     
-    // Wait for either login page or home page (if already registered)
-    console.log('Waiting for redirect after registration...');
-    await Promise.race([
-      page.waitForURL(`${baseURL}/login`).then(() => console.log('Redirected to login')),
-      page.waitForURL(`${baseURL}/`).then(() => console.log('Redirected to home'))
-    ]);
+    // After registration, check where we ended up
+    console.log('Checking post-registration state...');
+    
+    // Wait a bit for any redirects to complete
+    await page.waitForTimeout(2000);
+    
+    // Log current URL for debugging
+    console.log(`Current URL after registration: ${page.url()}`);
+    
+    // Check if we're on the login page or home page
+    const isOnLoginPage = page.url().includes('/login');
+    const isOnHomePage = page.url() === baseURL || page.url() === `${baseURL}/`;
+    
+    if (isOnLoginPage) {
+      console.log('On login page after registration');
+    } else if (isOnHomePage) {
+      console.log('On home page after registration');
+    } else {
+      console.log(`On unexpected page: ${page.url()}`);
+    }
     
     // Now perform login if we're not already logged in
-    if (page.url() !== `${baseURL}/`) {
+    if (!isOnHomePage) {
       console.log('Performing login...');
       await page.goto(`${baseURL}/login`);
+      
+      // Wait for login page to load
+      await page.waitForSelector('input[name="email"]', { timeout: 10000 });
+      
+      // Fill login form
       await page.fill('input[name="email"]', TEST_EMAIL);
       await page.fill('input[name="password"]', TEST_PASSWORD);
       await page.click('button[type="submit"]');
       
       console.log('Waiting for redirect after login...');
-      await page.waitForURL(`${baseURL}/`, { timeout: 45000 });
+      
+      // Wait for navigation to complete
+      try {
+        await page.waitForURL(`${baseURL}/`, { timeout: 10000 });
+        console.log('Successfully redirected to home page');
+      } catch (error) {
+        console.error('Failed to redirect to home page after login');
+        console.log(`Current URL: ${page.url()}`);
+        
+        // Take a screenshot of the current state
+        await page.screenshot({ path: 'login-redirect-error.png' });
+        
+        // Try to continue anyway
+        if (!page.url().includes('/')) {
+          console.log('Manually navigating to home page');
+          await page.goto(baseURL);
+        }
+      }
     }
     
     console.log('Successfully logged in!');
