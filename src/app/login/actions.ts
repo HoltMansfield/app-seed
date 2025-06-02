@@ -48,7 +48,7 @@ async function _loginAction(
 
   const valid = await bcrypt.compare(password, user.passwordHash ?? "");
   if (!valid) {
-    let failedLoginAttempts = (user.failedLoginAttempts ?? 0) + 1;
+    const failedLoginAttempts = (user.failedLoginAttempts ?? 0) + 1;
     let lockoutUntil = user.lockoutUntil;
 
     if (failedLoginAttempts >= MAX_FAILED_ATTEMPTS) {
