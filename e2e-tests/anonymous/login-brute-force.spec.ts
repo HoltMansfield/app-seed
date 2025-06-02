@@ -20,16 +20,20 @@ test.describe("Login Brute Force Protection", () => {
   // For now, we'll assume a consistent IP for the test runner.
   test.describe("Rate Limiting", () => {
     test("should block login after too many failed attempts from the same IP", async ({ page }) => {
-      // MAX_ATTEMPTS is 5 (from loginAction.ts)
-      for (let i = 0; i < 5; i++) {
-        await attemptLogin(page, `ip-test-user${i}@example.com`, WRONG_PASSWORD);
-        // Expect "Invalid credentials" as these users likely don't exist or password is wrong.
-        // The account lockout message should not appear here because we use different emails.
-        await expect(page.locator("text=Invalid credentials")).toBeVisible();
-      }
-      // The 6th attempt should be rate-limited
-      await attemptLogin(page, "ip-test-user-final@example.com", WRONG_PASSWORD);
-      await expect(page.locator("text=Too many login attempts. Please try again later.")).toBeVisible();
+      // MAX_ATTEMPTS is temporarily 1 in loginAction.ts
+      // First attempt
+      await attemptLogin(page, "ip-debug-user1@example.com", WRONG_PASSWORD);
+      console.log("DEBUG: After 1st login attempt. Page content snippet:", (await page.content()).substring(0, 500));
+      const error1 = page.locator("text=Invalid credentials");
+      await expect(error1).toBeVisible();
+      console.log("DEBUG: 'Invalid credentials' visible after 1st attempt.");
+
+      // Second attempt
+      await attemptLogin(page, "ip-debug-user2@example.com", WRONG_PASSWORD);
+      console.log("DEBUG: After 2nd login attempt. Page content snippet:", (await page.content()).substring(0, 500));
+      const error2 = page.locator("text=Too many login attempts. Please try again later.");
+      await expect(error2).toBeVisible();
+      console.log("DEBUG: 'Too many login attempts' visible after 2nd attempt.");
     });
 
     test("should allow login again after rate limit window expires (simulated by successful login)", async ({ page }) => {

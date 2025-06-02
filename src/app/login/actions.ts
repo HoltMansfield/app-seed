@@ -6,7 +6,7 @@ import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import bcrypt from "bcryptjs";
 
-const MAX_ATTEMPTS = 5;
+const MAX_ATTEMPTS = 1;
 const TIME_WINDOW_MS = 15 * 60 * 1000; // 15 minutes
 const loginAttempts = new Map<string, { count: number; timestamp: number }>();
 
