@@ -17,7 +17,7 @@ async function _loginAction(
   state: { error?: string; success?: boolean } | undefined,
   data: { email: string; password: string }
 ): Promise<{ error?: string; success?: boolean } | undefined> {
-  const ip = headers().get("x-forwarded-for")?.split(",")[0].trim() || 'unknown-ip';
+  const ip = (await headers()).get("x-forwarded-for")?.split(",")[0].trim() || 'unknown-ip';
   const currentTime = Date.now();
   const record = loginAttempts.get(ip);
 
