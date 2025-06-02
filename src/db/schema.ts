@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, uuid, primaryKey } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, uuid, primaryKey, integer } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -7,6 +7,8 @@ export const users = pgTable("users", {
   passwordHash: text("passwordHash"),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
+  failedLoginAttempts: integer("failed_login_attempts").default(0),
+  lockoutUntil: timestamp("lockout_until", { mode: "date" }),
 });
 
 export const sessions = pgTable("sessions", {
