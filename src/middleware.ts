@@ -12,9 +12,7 @@ export function middleware(request: NextRequest) {
   const isAuthenticated = !!sessionCookie?.value;
 
   // Check if the current path requires authentication
-  const isProtectedPath = protectedPaths.some((path) =>
-    pathname.startsWith(path)
-  );
+  const isProtectedPath = protectedPaths.some((path) => pathname.startsWith(path));
 
   // Check if the current path is an auth page (login/register)
   const isAuthPath = authPaths.some((path) => pathname.startsWith(path));

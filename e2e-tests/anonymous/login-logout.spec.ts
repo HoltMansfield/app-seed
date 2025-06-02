@@ -1,7 +1,5 @@
 import { test, expect } from '@playwright/test';
-
-const TEST_EMAIL = 'e2e-test@example.com';
-const TEST_PASSWORD = 'e2epassword123';
+import { TEST_EMAIL, TEST_PASSWORD } from '../global-setup';
 
 test('secure page redirects to login when not authenticated', async ({ page }) => {
   // Try to access secure page without being logged in
