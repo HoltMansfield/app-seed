@@ -22,15 +22,13 @@ test.describe("Login Brute Force Protection", () => {
     test("should block login after too many failed attempts from the same IP", async ({ page }) => {
       // MAX_ATTEMPTS is 5 (from loginAction.ts)
       for (let i = 0; i < 5; i++) {
-        await attemptLogin(page, TEST_USER_EMAIL, WRONG_PASSWORD);
-        // Expect "Invalid credentials" for the first 5 attempts
-        // It's possible the lockout user from another test hits the IP limit first,
-        // so we check for either error message.
-        const errorLocator = page.locator("text=Invalid credentials, text=Account is locked");
-        await expect(errorLocator.first()).toBeVisible();
+        await attemptLogin(page, `ip-test-user${i}@example.com`, WRONG_PASSWORD);
+        // Expect "Invalid credentials" as these users likely don't exist or password is wrong.
+        // The account lockout message should not appear here because we use different emails.
+        await expect(page.locator("text=Invalid credentials")).toBeVisible();
       }
       // The 6th attempt should be rate-limited
-      await attemptLogin(page, TEST_USER_EMAIL, WRONG_PASSWORD);
+      await attemptLogin(page, "ip-test-user-final@example.com", WRONG_PASSWORD);
       await expect(page.locator("text=Too many login attempts. Please try again later.")).toBeVisible();
     });
 
