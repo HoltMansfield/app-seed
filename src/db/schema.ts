@@ -4,10 +4,9 @@ import {
   timestamp,
   uuid,
   primaryKey,
-  uniqueIndex,
+  integer,
 } from "drizzle-orm/pg-core";
 import { InferInsertModel, InferSelectModel } from "drizzle-orm";
-
 
 export const users = pgTable("users", {
   id: uuid("id").primaryKey().defaultRandom(),
