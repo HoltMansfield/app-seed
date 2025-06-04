@@ -62,7 +62,7 @@ export default function RegisterPage() {
                 autoComplete="new-password"
                 disabled={isPending}
               />
-              {state?.error && <ServerError message={state.error} />}
+              <ServerError message={state?.error} dataTestId="error-message" />
               <SubmitButton isPending={isPending}>Register</SubmitButton>
             </Form>
           </FormProvider>

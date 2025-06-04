@@ -1,7 +1,7 @@
 "use client";
 import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { startTransition, useActionState } from "react";
+import { startTransition, useActionState, useEffect } from "react";
 import { loginAction } from "./actions";
 import { schema, LoginFormInputs } from "./schema";
 import ServerError from "@/components/forms/ServerError";
@@ -9,7 +9,7 @@ import SubmitButton from "@/components/forms/SubmitButton";
 import TextInput from "@/components/forms/TextInput";
 import Form from "@/components/forms/Form";
 
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Card } from "@radix-ui/themes";
 import {
   CardContent,
@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/card";
 
 export default function LoginPage() {
+  const router = useRouter();
   const [state, formAction, isPending] = useActionState(loginAction, undefined);
   const methods = useForm<LoginFormInputs>({
     resolver: yupResolver(schema),
@@ -31,9 +32,12 @@ export default function LoginPage() {
     });
   };
 
-  if (state?.success) {
-    redirect("/");
-  }
+  // Use useEffect to handle redirect after successful login
+  useEffect(() => {
+    if (state?.success) {
+      router.push("/");
+    }
+  }, [state?.success, router]);
 
   return (
     <main className="flex flex-col items-center justify-center min-h-screen gap-8">
@@ -60,7 +64,7 @@ export default function LoginPage() {
                 autoComplete="new-password"
                 disabled={isPending}
               />
-              {state?.error && <ServerError message={state.error} />}
+              <ServerError message={state?.error} dataTestId="error-message" />
               <SubmitButton isPending={isPending}>Login</SubmitButton>
             </Form>
           </FormProvider>
