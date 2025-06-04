@@ -4,7 +4,7 @@ import {
   timestamp,
   uuid,
   primaryKey,
-  uniqueIndex,
+  integer,
 } from "drizzle-orm/pg-core";
 import { InferInsertModel, InferSelectModel } from "drizzle-orm";
 
@@ -15,6 +15,8 @@ export const users = pgTable("users", {
   passwordHash: text("passwordHash"),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
+  failedLoginAttempts: integer("failedLoginAttempts").default(0),
+  lockoutUntil: timestamp("lockoutUntil", { mode: "date" }),
 });
 
 export const sessions = pgTable("sessions", {
