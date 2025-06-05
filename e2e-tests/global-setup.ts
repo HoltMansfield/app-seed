@@ -95,8 +95,7 @@ async function globalSetup(config: FullConfig) {
         await page.waitForTimeout(1000);
       }
       
-      // Create a storage state even if we can't verify login
-      // This allows tests to continue with whatever state we have
+      // Create a storage state even if we can't verify loginThis allows tests to continue with whatever state we have
       console.log("Creating storage state regardless of login status");
     }
 
