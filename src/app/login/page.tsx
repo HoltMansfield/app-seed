@@ -9,7 +9,6 @@ import SubmitButton from "@/components/forms/SubmitButton";
 import TextInput from "@/components/forms/TextInput";
 import Form from "@/components/forms/Form";
 
-import { redirect } from "next/navigation";
 import { Card } from "@radix-ui/themes";
 import {
   CardContent,
@@ -30,10 +29,6 @@ export default function LoginPage() {
       formAction(data);
     });
   };
-
-  if (state?.success) {
-    redirect("/");
-  }
 
   return (
     <main className="flex flex-col items-center justify-center min-h-screen gap-8">
