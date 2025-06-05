@@ -6,6 +6,7 @@ import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import bcrypt from "bcryptjs";
 import { MAX_FAILED_ATTEMPTS, LOCKOUT_DURATION_MS } from "./constants";
+import { redirect } from "next/navigation";
 
 async function _loginAction(
   state: { error?: string; success?: boolean } | undefined,
@@ -37,9 +38,19 @@ async function _loginAction(
     // Lock the account if max attempts reached
     if (currentFailedAttempts >= MAX_FAILED_ATTEMPTS) {
       lockoutUntil = new Date(Date.now() + LOCKOUT_DURATION_MS);
+      
+      // Update the user record with new failed attempts count and lockout
+      await db.update(users)
+        .set({
+          failedLoginAttempts: currentFailedAttempts,
+          lockoutUntil: lockoutUntil
+        })
+        .where(eq(users.email, email));
+        
+      return { error: "Account is locked. Please try again later." };
     }
     
-    // Update the user record with new failed attempts count and possible lockout
+    // Update the user record with new failed attempts count
     await db.update(users)
       .set({
         failedLoginAttempts: currentFailedAttempts,
@@ -63,7 +74,9 @@ async function _loginAction(
   // Set session cookie
   const cookieStore = await cookies();
   cookieStore.set("session_user", user.email ?? "", { path: "/" });
-  return { success: true };
+  
+  // Use server-side redirect instead of returning success
+  redirect("/");
 }
 
 export const loginAction = withHighlightError(_loginAction);
