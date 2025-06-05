@@ -15,7 +15,7 @@ async function _loginAction(
   const { email, password } = data;
 
   // Find the user
-  const found = await db.select().from(users).where(eq(users.email, email));
+  const found = await db.select().from(users).where(eq(users.email, email)).limit(1);
   if (found.length === 0) {
     return { error: "Invalid credentials." };
   }

@@ -46,4 +46,5 @@ node_modules/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
-
+/e2e-tests/storageState.json
+/e2e-tests/error-screenshots
