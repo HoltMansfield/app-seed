@@ -78,6 +78,7 @@ function validateEnv() {
         "❌ Unknown error validating environment variables:",
         error
       );
+      console.error("process.env:", process.env);
     }
 
     process.exit(1);
