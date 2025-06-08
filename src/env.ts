@@ -20,7 +20,6 @@ const envSchema = yup.object({
     otherwise: () => yup.string().required("Database URL is required"),
   }),
 
-  //yup.string().required("Database URL is required"),
   MIGRATIONS_PATH: yup.string().default("./drizzle/migrations"),
 
   // Email service
