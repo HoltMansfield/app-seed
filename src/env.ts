@@ -8,14 +8,17 @@ const envSchema = yup.object({
     .oneOf(["development", "production", "test", "e2e"])
     .default("development"),
   // Application environment
-  APP_ENV: yup.string().oneOf(["LOCAL", "E2E", "PRODUCTION"]).default("LOCAL"),
+  APP_ENV: yup
+    .string()
+    .oneOf(["LOCAL", "E2E", "PRODUCTION", "CI"])
+    .default("LOCAL"),
 
   // Server configuration
   PORT: yup.number().default(3000),
 
   // Database configuration
   DB_URL: yup.string().when("APP_ENV", {
-    is: (env: string) => env === "E2E" || env === "ci",
+    is: (env: string) => env === "E2E" || env === "CI",
     then: () => yup.string().default("noDB_URLForThis_APP_ENV"),
     otherwise: () => yup.string().required("Database URL is required"),
   }),
@@ -24,7 +27,7 @@ const envSchema = yup.object({
 
   // Email service
   RESEND_API_KEY: yup.string().when("APP_ENV", {
-    is: (env: string) => env === "E2E" || env === "ci",
+    is: (env: string) => env === "E2E" || env === "CI",
     then: () => yup.string().default("noEmailsForThis_APP_ENV"),
     otherwise: () =>
       yup
