@@ -2,11 +2,6 @@ import * as yup from "yup";
 
 // Define the environment schema
 const envSchema = yup.object({
-  // Node environment
-  NODE_ENV: yup
-    .string()
-    .oneOf(["development", "production", "test", "e2e"])
-    .default("development"),
   // Application environment
   APP_ENV: yup
     .string()

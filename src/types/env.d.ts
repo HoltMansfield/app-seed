@@ -1,8 +1,6 @@
-// This file extends the type definition for process.env.NODE_ENV to include 'e2e'.
 declare namespace NodeJS {
   interface ProcessEnv {
-    NODE_ENV: "development" | "production" | "test" | "e2e" | "ci";
-    APP_ENV?: "LOCAL" | "E2E" | "PRODUCTION";
+    APP_ENV?: "LOCAL" | "E2E" | "PRODUCTION" | "CI";
     PORT?: string;
     DB_URL?: string;
     MIGRATIONS_PATH?: string;
