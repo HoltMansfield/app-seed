@@ -4,7 +4,7 @@ import { env } from "@/env";
 H.init({
   projectID: "ney02ovd",
   serviceName: "nextjs-server",
-  environment: process.env.NODE_ENV,
+  environment: env.APP_ENV,
 });
 
 export function withHighlightError<Args extends unknown[], R>(
