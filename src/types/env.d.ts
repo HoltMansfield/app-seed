@@ -1,6 +1,13 @@
 declare namespace NodeJS {
   interface ProcessEnv {
-    APP_ENV?: "LOCAL" | "E2E" | "PRODUCTION" | "CI";
+    APP_ENV?:
+      | "LOCAL"
+      | "DEPLOY_PREVIEW"
+      | "BRANCH_PREVIEW"
+      | "PREVIEW_SERVER"
+      | "PRODUCTION"
+      | "E2E"
+      | "CI";
     PORT?: string;
     DB_URL?: string;
     MIGRATIONS_PATH?: string;
