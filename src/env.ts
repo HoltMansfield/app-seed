@@ -5,7 +5,15 @@ const envSchema = yup.object({
   // Application environment
   APP_ENV: yup
     .string()
-    .oneOf(["LOCAL", "E2E", "PRODUCTION", "CI"])
+    .oneOf([
+      "LOCAL",
+      "DEPLOY_PREVIEW",
+      "BRANCH_PREVIEW",
+      "PREVIEW_SERVER",
+      "PRODUCTION",
+      "E2E",
+      "CI",
+    ])
     .default("LOCAL"),
 
   // Server configuration
