@@ -8,6 +8,7 @@ import { eq } from "drizzle-orm";
 import bcrypt from "bcryptjs";
 import { MAX_FAILED_ATTEMPTS, LOCKOUT_DURATION_MS } from "./constants";
 import { redirect } from "next/navigation";
+import { env } from "@/env";
 
 async function _loginAction(
   state: { error?: string; success?: boolean } | undefined,
@@ -76,8 +77,10 @@ async function _loginAction(
   const cookieStore = await cookies();
   cookieStore.set("session_user", user.email ?? "", { path: "/" });
 
-  if (user.email) {
-    H.identify(user.email);
+  if (env.APP_ENV !== "E2E" && env.APP_ENV !== "CI") {
+    if (user.email) {
+      H.identify(user.email);
+    }
   }
   
   // Use server-side redirect instead of returning success
