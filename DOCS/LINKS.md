@@ -9,3 +9,6 @@ https://app.highlight.io/
 
 NETLIFY (deployment):
 https://app.netlify.com/
+
+LOGO:
+https://www.freepik.com/pikaso/image-editor?creation=sShZzzml8e
