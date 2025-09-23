@@ -5,17 +5,17 @@ import Link from "next/link";
 export default function NavBar() {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   return (
-    <nav className="sticky top-0 z-50 flex items-center justify-between flex-wrap bg-slate-500 py-1 pt-[5px] lg:py-4 lg:px-12 shadow border-solid border-t-2 border-blue-900">
-      <div className="flex justify-between lg:w-auto w-full lg:border-b-0 pl-6 pr-2 pb-2 lg:pb-0">
+    <nav className="sticky top-0 z-50 flex items-center justify-between flex-wrap bg-slate-500 py-0 pt-[1px] lg:py-1 lg:px-12 shadow border-solid border-t-1 border-blue-900">
+      <div className="flex justify-between lg:w-auto w-full lg:border-b-0 pl-6 pr-2 pb-1 lg:pb-0">
         <div className="flex items-center flex-shrink-0 text-gray-800 mr-16">
-          <span className="font-semibold text-xl tracking-tight text-slate-200">
-            Class-A-Camp-W
+          <span className="font-semibold text-base tracking-tight text-slate-200">
+            Class Action Camping World
           </span>
         </div>
         <div className="block lg:hidden">
           <button
             id="nav"
-            className="flex items-center px-3 py-2 border-2 rounded text-blue-700 border-blue-700 hover:text-blue-700 hover:border-blue-700 lg:hidden"
+            className="flex items-center px-2 py-1 border-1 rounded text-blue-700 border-blue-700 hover:text-blue-700 hover:border-blue-700 lg:hidden"
             aria-label="Open Menu"
             onClick={() => setMenuOpen((open) => !open)}
           >
