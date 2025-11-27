@@ -12,7 +12,7 @@ declare namespace NodeJS {
     DB_URL?: string;
     MIGRATIONS_PATH?: string;
     RESEND_API_KEY?: string;
-    HIGHLIGHT_API_KEY?: string;
+    SENTRY_DSN?: string;
     E2E_URL?: string;
     DEBUG?: string;
     LOG_LEVEL?: "trace" | "debug" | "info" | "warn" | "error" | "fatal";

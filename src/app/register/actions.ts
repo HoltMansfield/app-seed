@@ -1,6 +1,6 @@
 "use server";
-import { withHighlightError } from "@/highlight-error";
-import { H } from '@highlight-run/next/client';
+import { withSentryError } from "@/sentry-error";
+import * as Sentry from "@sentry/nextjs";
 import { db } from "@/db/connect";
 import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
@@ -47,13 +47,13 @@ async function _registerAction(
       //await sendWelcomeEmail(email);
     } catch (error) {
       console.error("Failed to send welcome email:", error);
-      H.consumeError(error as Error);
+      Sentry.captureException(error);
     }
   }
 
   return { message: "Action successful!", success: true };
 }
 
-export const registerAction = withHighlightError(_registerAction);
+export const registerAction = withSentryError(_registerAction);
 
 

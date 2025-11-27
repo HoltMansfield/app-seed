@@ -61,16 +61,17 @@
    ```
 4. Update sender email in `src/actions/emails.tsx` if needed
 
-### Error Monitoring (Highlight)
+### Error Monitoring (Sentry)
 
-1. Create a [Highlight](https://highlight.io/) account
+1. Create a [Sentry](https://sentry.io/) account
 2. Create a new project
-3. Get your API key
-4. Update `.env.local` with your Highlight API key:
+3. Get your DSN from project settings
+4. Update `.env.local` with your Sentry DSN:
    ```
-   HIGHLIGHT_API_KEY=your_highlight_api_key
+   SENTRY_DSN=your_sentry_dsn
    ```
-5. Update the project ID in `src/highlight-error.ts` if needed
+5. Update the org and project in `next.config.ts` and `.sentryclirc` if needed
+6. See `DOCS/SENTRY_SETUP.md` for detailed configuration instructions
 
 ## Step 4: Update E2E Testing Configuration
 
@@ -93,7 +94,8 @@
    - Go to your GitHub repository → Settings → Secrets and variables → Actions
    - Add the following secrets:
      - `DB_URL`: Your database connection string
-     - `HIGHLIGHT_API_KEY`: Your Highlight API key
+     - `SENTRY_DSN`: Your Sentry DSN
+     - `SENTRY_AUTH_TOKEN`: Your Sentry auth token (for sourcemap uploads)
      - `RESEND_API_KEY`: Your Resend API key
      - `DOCKERHUB_USERNAME`: Your Docker Hub username (required for e2e tests)
      - `DOCKERHUB_TOKEN`: Your Docker Hub access token (required for e2e tests)
@@ -173,7 +175,8 @@
    APP_ENV=PRODUCTION
    DB_URL=postgresql://[your-neon-connection-string]
    RESEND_API_KEY=re_[your-resend-api-key]
-   HIGHLIGHT_API_KEY=[your-highlight-api-key]
+   SENTRY_DSN=[your-sentry-dsn]
+   SENTRY_AUTH_TOKEN=[your-sentry-auth-token]
    MIGRATIONS_PATH=./drizzle/migrations
    ```
 

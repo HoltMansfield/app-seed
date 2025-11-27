@@ -60,10 +60,11 @@ Overview of all third-party services and libraries integrated into this applicat
 
 ## Monitoring and Error Tracking
 
-- **Highlight (v7.9.23)**: Error tracking and monitoring service
-  - `@highlight-run/next` for Next.js integration
-  - `@highlight-run/node` for server-side error tracking
-  - Custom error wrapper (`withHighlightError`) for server actions
+- **Sentry (v8.0.0)**: Error tracking and performance monitoring service
+  - `@sentry/nextjs` for Next.js integration
+  - Client-side error tracking and session replay
+  - Server-side error tracking and performance monitoring
+  - Custom error wrapper (`withSentryError`) for server actions
 
 ## Testing
 

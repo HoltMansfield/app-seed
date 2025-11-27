@@ -1,5 +1,11 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## 🚨 Recent Changes
+
+**Migrated from Highlight.io to Sentry.io** - See [MIGRATION_SUMMARY.md](MIGRATION_SUMMARY.md) for details.
+
+**Quick Setup**: See [QUICK_START_SENTRY.md](QUICK_START_SENTRY.md) to configure Sentry.
+
 ## Getting Started
 
 First, run the development server:

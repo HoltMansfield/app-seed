@@ -37,9 +37,9 @@ Possible values:
 
 ### Error Tracking
 
-| Variable            | Description                             | Used In                       |
-| ------------------- | --------------------------------------- | ----------------------------- |
-| `HIGHLIGHT_API_KEY` | API key for Highlight.io error tracking | Error tracking and monitoring |
+| Variable     | Description                        | Used In                       |
+| ------------ | ---------------------------------- | ----------------------------- |
+| `SENTRY_DSN` | DSN for Sentry.io error tracking   | Error tracking and monitoring |
 
 ### Testing
 

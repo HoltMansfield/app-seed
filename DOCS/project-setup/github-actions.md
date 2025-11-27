@@ -38,19 +38,16 @@ This workflow checks for security vulnerabilities in dependencies.
 - Runs npm audit with a threshold set to high severity
 - Fails if any high or critical severity vulnerabilities are found
 
-### 4. Highlight Sourcemaps Upload (`sourcemaps.yml`)
+### 4. Sentry Sourcemaps Upload
 
-This workflow uploads sourcemaps to Highlight.io for better error tracking.
+Sentry automatically uploads sourcemaps during the build process when properly configured.
 
-**Trigger Events:**
+**Configuration:**
 
-- Push to main, highlight-io, or highlight-sourcemaps branches
-- Manual trigger via workflow_dispatch
-
-**Key Steps:**
-
-- Uploads sourcemaps to Highlight.io using their sourcemap uploader
-- Uses the `HIGHLIGHT_API_KEY` secret for authentication
+- Sourcemaps are uploaded via the `@sentry/nextjs` webpack plugin
+- Requires `SENTRY_AUTH_TOKEN` environment variable
+- Configured in `next.config.ts` with `withSentryConfig`
+- See `DOCS/SENTRY_SETUP.md` for detailed configuration
 
 ## Environment Setup
 

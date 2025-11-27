@@ -39,10 +39,10 @@ const envSchema = yup.object({
   }),
 
   // Error tracking
-  HIGHLIGHT_API_KEY: yup.string().when("APP_ENV", {
+  SENTRY_DSN: yup.string().when("APP_ENV", {
     is: "PRODUCTION",
     then: () =>
-      yup.string().required("Highlight API key is required for production"),
+      yup.string().required("Sentry DSN is required for production"),
     otherwise: () => yup.string().optional(),
   }),
 

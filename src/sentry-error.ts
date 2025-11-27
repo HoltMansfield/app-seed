@@ -1,13 +1,7 @@
-import { H } from "@highlight-run/node";
+import * as Sentry from "@sentry/nextjs";
 import { env } from "@/env";
 
-H.init({
-  projectID: "ney02ovd",
-  serviceName: "nextjs-server",
-  environment: env.APP_ENV,
-});
-
-export function withHighlightError<Args extends unknown[], R>(
+export function withSentryError<Args extends unknown[], R>(
   fn: (...params: Args) => Promise<R>
 ):
   (..._params: Args) => Promise<R> {
@@ -19,7 +13,7 @@ export function withHighlightError<Args extends unknown[], R>(
       const result = await fn(...params);
       return result;
     } catch (error) {
-      H.consumeError(error as Error);
+      Sentry.captureException(error);
       throw error;
     }
   };
