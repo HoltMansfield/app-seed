@@ -29,13 +29,12 @@
     "e2e:test:logged-in": "npx wait-on http://localhost:3001 && dotenv -e .env.e2e -- playwright test --project=logged-in"
   },
   "dependencies": {
-    "@highlight-run/next": "^7.9.38",
-    "@highlight-run/node": "^3.12.22",
     "@hookform/resolvers": "^5.0.1",
     "@neondatabase/serverless": "^1.0.0",
     "@radix-ui/react-slot": "^1.2.0",
     "@radix-ui/themes": "^3.2.1",
     "@react-email/components": "^0.0.41",
+    "@sentry/nextjs": "^8.0.0",
     "bcryptjs": "^3.0.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

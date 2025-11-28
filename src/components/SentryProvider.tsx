@@ -1,18 +1,11 @@
 "use client";
 import { useEffect, useRef } from "react";
-import { H } from "@highlight-run/next/client";
+import * as Sentry from "@sentry/nextjs";
 
-export default function HighlightProvider({ children }: { children: React.ReactNode }) {
+export default function SentryProvider({ children }: { children: React.ReactNode }) {
   const lastIdentifiedUser = useRef<string | null>(null);
-  const isInitialized = useRef(false);
 
   useEffect(() => {
-    // Only initialize once
-    if (!isInitialized.current) {
-      H.init("d0oevl36hees769uqvl0");
-      isInitialized.current = true;
-    }
-    
     // Check if user is logged in and identify them
     const checkUserSession = () => {
       // Check for session cookie (this is a simple check)
@@ -23,11 +16,12 @@ export default function HighlightProvider({ children }: { children: React.ReactN
         const userEmail = sessionCookie.split('=')[1];
         if (userEmail && userEmail !== '' && userEmail !== lastIdentifiedUser.current) {
           // Only identify if this is a different user than last time
-          H.identify(userEmail);
+          Sentry.setUser({ email: userEmail });
           lastIdentifiedUser.current = userEmail;
         }
       } else if (lastIdentifiedUser.current !== null) {
         // User logged out - clear the last identified user
+        Sentry.setUser(null);
         lastIdentifiedUser.current = null;
       }
     };

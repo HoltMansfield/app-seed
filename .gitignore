@@ -48,3 +48,9 @@ node_modules/
 /playwright/.cache/
 /e2e-tests/storageState.json
 /e2e-tests/error-screenshots
+
+# Sentry
+.sentryclirc
+
+# Test logs
+e2e-test-*.log

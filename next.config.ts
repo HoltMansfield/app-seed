@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+// import { withSentryConfig } from "@sentry/nextjs";
 
 const nextConfig: NextConfig = {
   experimental: {
@@ -38,4 +39,23 @@ const nextConfig: NextConfig = {
   },
 };
 
+// TODO: Re-enable Sentry webpack plugin after fixing E2E test issues
+// Only apply Sentry config if not in E2E mode
+// const isE2E = process.env.APP_ENV === "E2E";
+
 export default nextConfig;
+// export default isE2E
+//   ? nextConfig
+//   : withSentryConfig(nextConfig, {
+//       org: "holt-mansfield-2h",
+//       project: "deal-decoder",
+//       silent: !process.env.CI,
+//       widenClientFileUpload: true,
+//       reactComponentAnnotation: {
+//         enabled: true,
+//       },
+//       tunnelRoute: "/monitoring",
+//       hideSourceMaps: true,
+//       disableLogger: true,
+//       automaticVercelMonitors: true,
+//     });
