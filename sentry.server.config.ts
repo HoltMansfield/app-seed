@@ -13,5 +13,8 @@ if (env.SENTRY_DSN) {
     debug: false,
 
     environment: env.APP_ENV,
+
+    // Link errors to releases for sourcemap resolution
+    release: process.env.SENTRY_RELEASE,
   });
 }

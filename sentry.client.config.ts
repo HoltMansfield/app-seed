@@ -14,6 +14,9 @@ if (env.SENTRY_DSN) {
 
     environment: env.APP_ENV,
 
+    // Link errors to releases for sourcemap resolution
+    release: process.env.NEXT_PUBLIC_SENTRY_RELEASE,
+
     // You can remove this option if you're not planning to use the Sentry Session Replay feature:
     replaysOnErrorSampleRate: 1.0,
 
