@@ -25,6 +25,7 @@ export default function LoginPage() {
   const { handleSubmit } = methods;
 
   const onSubmit = async (data: LoginFormInputs) => {
+    throw new Error("Login action not rrzzheer");
     startTransition(() => {
       formAction(data);
     });
