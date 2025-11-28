@@ -1,6 +1,5 @@
 "use server";
-import { withHighlightError } from "@/highlight-error";
-import { H } from '@highlight-run/next/client';
+import { withSentryError } from "@/sentry-error";
 import { cookies } from "next/headers";
 import { db } from "@/db/connect";
 import { users } from "@/db/schema";
@@ -8,7 +7,6 @@ import { eq } from "drizzle-orm";
 import bcrypt from "bcryptjs";
 import { MAX_FAILED_ATTEMPTS, LOCKOUT_DURATION_MS } from "./constants";
 import { redirect } from "next/navigation";
-import { env } from "@/env";
 
 async function _loginAction(
   state: { error?: string; success?: boolean } | undefined,
@@ -77,11 +75,10 @@ async function _loginAction(
   const cookieStore = await cookies();
   cookieStore.set("session_user", user.email ?? "", { path: "/" });
 
-  // Note: H.identify() should be called on the client-side after successful login
-  // Server-side H.identify() is not supported
+  // Note: Sentry.setUser() is called on the client-side after successful login via SentryProvider
   
   // Use server-side redirect instead of returning success
   redirect("/");
 }
 
-export const loginAction = withHighlightError(_loginAction);
+export const loginAction = withSentryError(_loginAction);
