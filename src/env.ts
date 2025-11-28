@@ -6,13 +6,15 @@ const envSchema = yup.object({
   APP_ENV: yup
     .string()
     .oneOf([
-      "LOCAL",
-      "DEPLOY_PREVIEW",
-      "BRANCH_PREVIEW",
-      "PREVIEW_SERVER",
-      "PRODUCTION",
-      "E2E",
-      "CI",
+      "LOCAL",          // Dev on laptop
+      "E2E",            // E2E tests (laptop or GitHub)
+      "DEV",            // Dev environment (deployed)
+      "QA",             // QA environment (deployed)
+      "DEPLOY_PREVIEW", // Netlify deploy preview (PR)
+      "BRANCH_PREVIEW", // Netlify branch preview
+      "PREVIEW_SERVER", // Netlify preview server
+      "PRODUCTION",     // Production environment
+      "CI",             // GitHub Actions builds
     ])
     .default("LOCAL"),
 

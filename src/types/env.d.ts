@@ -1,13 +1,15 @@
 declare namespace NodeJS {
   interface ProcessEnv {
     APP_ENV?:
-      | "LOCAL"
-      | "DEPLOY_PREVIEW"
-      | "BRANCH_PREVIEW"
-      | "PREVIEW_SERVER"
-      | "PRODUCTION"
-      | "E2E"
-      | "CI";
+      | "LOCAL"          // Dev on laptop
+      | "E2E"            // E2E tests
+      | "DEV"            // Dev environment
+      | "QA"             // QA environment
+      | "DEPLOY_PREVIEW" // Netlify deploy preview
+      | "BRANCH_PREVIEW" // Netlify branch preview
+      | "PREVIEW_SERVER" // Netlify preview server
+      | "PRODUCTION"     // Production
+      | "CI";            // GitHub Actions
     PORT?: string;
     DB_URL?: string;
     MIGRATIONS_PATH?: string;
