@@ -17,4 +17,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Audit dependencies
-        run: npm audit --audit-level=high #next is high then critical
+        run: npm audit --audit-level=high
+        # Fails on high or critical severity vulnerabilities
+        # Moderate severity vulnerabilities are reported but don't fail the build
