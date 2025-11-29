@@ -19,6 +19,8 @@ export default function NavBarClient({ currentUser }: NavBarClientProps) {
 
   // Handle swipe gestures
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+
     const handleTouchStart = (e: TouchEvent) => {
       touchStartX.current = e.touches[0].clientX;
     };
@@ -54,6 +56,8 @@ export default function NavBarClient({ currentUser }: NavBarClientProps) {
 
   // Close drawer when clicking outside
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+
     const handleClickOutside = (e: MouseEvent) => {
       if (drawerRef.current && !drawerRef.current.contains(e.target as Node)) {
         setDrawerOpen(false);
