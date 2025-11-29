@@ -1,18 +1,23 @@
 import * as Sentry from "@sentry/nextjs";
-import { env } from "@/env";
 
 // Only initialize if SENTRY_DSN is provided
-if (env.SENTRY_DSN) {
+// Use process.env directly to avoid circular dependency with env.ts during instrumentation
+const sentryDsn = process.env.NEXT_PUBLIC_SENTRY_DSN || process.env.SENTRY_DSN;
+const appEnv = process.env.NEXT_PUBLIC_APP_ENV || process.env.APP_ENV || "LOCAL";
+
+console.log('[Sentry Client] Initializing with DSN:', sentryDsn ? 'Present' : 'Missing', 'Environment:', appEnv);
+
+if (sentryDsn) {
   Sentry.init({
-    dsn: env.SENTRY_DSN,
+    dsn: sentryDsn,
     
     // Adjust this value in production, or use tracesSampler for greater control
     tracesSampleRate: 1.0,
 
     // Setting this option to true will print useful information to the console while you're setting up Sentry.
-    debug: false,
+    debug: true,
 
-    environment: env.APP_ENV,
+    environment: appEnv,
 
     // Link errors to releases for sourcemap resolution
     release: process.env.NEXT_PUBLIC_SENTRY_RELEASE,
@@ -26,11 +31,14 @@ if (env.SENTRY_DSN) {
 
     // You can remove this option if you're not planning to use the Sentry Session Replay feature:
     integrations: [
-      Sentry.replayIntegration({
-        // Additional Replay configuration goes in here, for example:
-        maskAllText: true,
-        blockAllMedia: true,
-      }),
+      // Note: replayIntegration is only available in browser, not during SSR
+      ...(typeof window !== 'undefined' && Sentry.replayIntegration ? [
+        Sentry.replayIntegration({
+          // Additional Replay configuration goes in here, for example:
+          maskAllText: true,
+          blockAllMedia: true,
+        })
+      ] : []),
     ],
   });
 }
