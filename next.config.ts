@@ -3,7 +3,6 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   experimental: {
     serverSourceMaps: true,
-    instrumentationHook: true,
   },
   async headers() {
     return [

@@ -2,6 +2,7 @@
 import { useForm, FormProvider } from "react-hook-form";
 import { startTransition, useActionState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { withSentryErrorClient } from "@/sentry-error";
 import { registerAction } from "./actions";
 import { schema, RegisterFormInputs } from "./schema";
 import ServerError from "@/components/forms/ServerError";
@@ -27,11 +28,11 @@ export default function RegisterPage() {
   });
   const { handleSubmit } = methods;
 
-  const onSubmit = async (data: RegisterFormInputs) => {
+  const onSubmit = withSentryErrorClient(async (data: RegisterFormInputs) => {
     startTransition(() => {
       formAction(data);
     });
-  };
+  });
 
   if (state?.success) {
     redirect("/login");
