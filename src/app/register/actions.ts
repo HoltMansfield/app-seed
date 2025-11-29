@@ -4,7 +4,6 @@ import * as Sentry from "@sentry/nextjs";
 import { db } from "@/db/connect";
 import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
-import { env } from "@/env";
 import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcryptjs";
 import * as yup from "yup";
@@ -42,7 +41,7 @@ async function _registerAction(
     passwordHash,
   });
 
-  if (env.NEXT_PUBLIC_APP_ENV !== "E2E") {
+  if (process.env.NEXT_PUBLIC_APP_ENV !== "E2E") {
     try {
       //await sendWelcomeEmail(email);
     } catch (error) {

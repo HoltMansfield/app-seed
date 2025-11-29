@@ -9,9 +9,7 @@ export function withSentryError<Args extends unknown[], R>(
 ):
   (..._params: Args) => Promise<R> {
   return async (...params: Args): Promise<R> => {
-    // Import env only when actually needed (server-side)
-    const { env } = await import("@/env");
-    if (env.NEXT_PUBLIC_APP_ENV === "E2E") {
+    if (process.env.NEXT_PUBLIC_APP_ENV === "E2E") {
       return await fn(...params);
     }
     try {
