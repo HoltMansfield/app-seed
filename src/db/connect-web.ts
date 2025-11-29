@@ -6,7 +6,7 @@ import { env } from "@/env";
 
 let db: NodePgDatabase<typeof schema> | null = null;
 
-if (env.APP_ENV !== "E2E") {
+if (env.NEXT_PUBLIC_APP_ENV !== "E2E") {
   const pool = new Pool({ connectionString: env.DB_URL });
   db = drizzle(pool, { schema });
 }

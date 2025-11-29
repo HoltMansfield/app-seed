@@ -38,7 +38,7 @@
 2. Update the `.env.local` file with your new database connection string:
 
    ```
-   APP_ENV=LOCAL
+   NEXT_PUBLIC_APP_ENV=LOCAL
    DB_URL=postgresql://[your-username]:[your-password]@[your-host]/[your-database]?sslmode=require
    MIGRATIONS_PATH=./drizzle/migrations
    ```
@@ -77,7 +77,7 @@
 1. Update the `.env.e2e` file:
 
    ```
-   APP_ENV=E2E
+   NEXT_PUBLIC_APP_ENV=E2E
    DB_URL=postgresql://test:test@localhost:5433/testdb
    MIGRATIONS_PATH=./drizzle/e2e-migrations
    E2E_URL=http://localhost:3001
@@ -170,7 +170,7 @@
 
    ```
    NODE_VERSION=20
-   APP_ENV=PRODUCTION
+   NEXT_PUBLIC_APP_ENV=PRODUCTION
    DB_URL=postgresql://[your-neon-connection-string]
    RESEND_API_KEY=re_[your-resend-api-key]
    HIGHLIGHT_API_KEY=[your-highlight-api-key]

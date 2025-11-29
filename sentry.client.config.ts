@@ -3,8 +3,7 @@ import * as Sentry from "@sentry/nextjs";
 // Only initialize if SENTRY_DSN is provided
 // Use process.env directly to avoid circular dependency with env.ts during instrumentation
 const sentryDsn = process.env.NEXT_PUBLIC_SENTRY_DSN || process.env.SENTRY_DSN;
-const appEnv =
-  process.env.NEXT_PUBLIC_APP_ENV || process.env.APP_ENV || "LOCAL";
+const appEnv = process.env.NEXT_PUBLIC_APP_ENV || "LOCAL";
 
 console.log(
   "[Sentry Client] Initializing with DSN:",
