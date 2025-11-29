@@ -3,7 +3,7 @@ import * as Sentry from "@sentry/nextjs";
 // Only initialize if SENTRY_DSN is provided
 // Use process.env directly in edge runtime to avoid env validation issues
 const sentryDsn = process.env.SENTRY_DSN;
-const appEnv = process.env.APP_ENV || "LOCAL";
+const appEnv = process.env.NEXT_PUBLIC_APP_ENV || "LOCAL";
 
 if (sentryDsn) {
   Sentry.init({

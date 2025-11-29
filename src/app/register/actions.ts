@@ -42,7 +42,7 @@ async function _registerAction(
     passwordHash,
   });
 
-  if (env.APP_ENV !== "E2E") {
+  if (env.NEXT_PUBLIC_APP_ENV !== "E2E") {
     try {
       //await sendWelcomeEmail(email);
     } catch (error) {

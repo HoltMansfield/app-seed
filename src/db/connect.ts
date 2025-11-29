@@ -6,7 +6,7 @@ import { env } from "@/env";
 
 let db: NodePgDatabase<typeof schema>;
 
-if (env.APP_ENV === 'E2E') {
+if (env.NEXT_PUBLIC_APP_ENV === 'E2E') {
   if (!dbE2E) throw new Error("dbE2E is not configured!");
   db = dbE2E;
 } else {

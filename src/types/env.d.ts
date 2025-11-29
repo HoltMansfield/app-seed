@@ -1,6 +1,6 @@
 declare namespace NodeJS {
   interface ProcessEnv {
-    APP_ENV?:
+    NEXT_PUBLIC_APP_ENV?:
       | "LOCAL"          // Dev on laptop
       | "E2E"            // E2E tests
       | "DEV"            // Dev environment

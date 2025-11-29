@@ -3,7 +3,7 @@ import * as yup from "yup";
 // Define the environment schema
 const envSchema = yup.object({
   // Application environment
-  APP_ENV: yup
+  NEXT_PUBLIC_APP_ENV: yup
     .string()
     .oneOf([
       "LOCAL",          // Dev on laptop
@@ -22,18 +22,18 @@ const envSchema = yup.object({
   PORT: yup.number().default(3000),
 
   // Database configuration
-  DB_URL: yup.string().when("APP_ENV", {
+  DB_URL: yup.string().when("NEXT_PUBLIC_APP_ENV", {
     is: (env: string) => env === "E2E" || env === "CI",
-    then: () => yup.string().default("noDB_URLForThis_APP_ENV"),
+    then: () => yup.string().default("noDB_URLForThis_NEXT_PUBLIC_APP_ENV"),
     otherwise: () => yup.string().required("Database URL is required"),
   }),
 
   MIGRATIONS_PATH: yup.string().default("./drizzle/migrations"),
 
   // Email service
-  RESEND_API_KEY: yup.string().when("APP_ENV", {
+  RESEND_API_KEY: yup.string().when("NEXT_PUBLIC_APP_ENV", {
     is: (env: string) => env === "E2E" || env === "CI",
-    then: () => yup.string().default("noEmailsForThis_APP_ENV"),
+    then: () => yup.string().default("noEmailsForThis_NEXT_PUBLIC_APP_ENV"),
     otherwise: () =>
       yup
         .string()
@@ -44,7 +44,7 @@ const envSchema = yup.object({
   SENTRY_DSN: yup.string().optional(),
 
   // Testing
-  E2E_URL: yup.string().when("APP_ENV", {
+  E2E_URL: yup.string().when("NEXT_PUBLIC_APP_ENV", {
     is: "E2E",
     then: () => yup.string().default("http://localhost:3001"),
     otherwise: () => yup.string().optional(),

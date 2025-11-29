@@ -13,9 +13,9 @@ The project uses different environment files for different contexts:
 
 ### Application Environment
 
-| Variable  | Description                                | Used In                                                          |
-| --------- | ------------------------------------------ | ---------------------------------------------------------------- |
-| `APP_ENV` | Determines the current runtime environment | Database connection selection, conditional logic for E2E testing |
+| Variable                | Description                                | Used In                                                          |
+| ----------------------- | ------------------------------------------ | ---------------------------------------------------------------- |
+| `NEXT_PUBLIC_APP_ENV`   | Determines the current runtime environment | Database connection selection, conditional logic for E2E testing |
 
 Possible values:
 
@@ -51,11 +51,11 @@ Possible values:
 
 ### Database Connection Selection
 
-The application uses different database connections based on the `APP_ENV` value:
+The application uses different database connections based on the `NEXT_PUBLIC_APP_ENV` value:
 
 ```typescript
 // In src/db/connect.ts
-if (process.env.APP_ENV === "E2E") {
+if (env.NEXT_PUBLIC_APP_ENV === "E2E") {
   // Use E2E database connection
 } else {
   // Use web database connection
@@ -68,7 +68,7 @@ Email functionality is conditionally enabled based on the environment:
 
 ```typescript
 // In src/app/register/actions.ts
-if (process.env.APP_ENV !== "E2E") {
+if (env.NEXT_PUBLIC_APP_ENV !== "E2E") {
   // Send real emails in non-E2E environments
 }
 ```
