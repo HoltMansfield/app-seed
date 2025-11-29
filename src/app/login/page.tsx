@@ -27,12 +27,11 @@ export default function LoginPage() {
 
   const onSubmit = async (data: LoginFormInputs) => {
     try {
-      throw new Error("Login page not rrzzheer");
       startTransition(() => {
         formAction(data);
       });
     } catch (error) {
-      const x = Sentry.captureException;
+      debugger;
       Sentry.captureException(error);
       throw error; // Re-throw so error boundary can catch it
     }
