@@ -9,7 +9,11 @@ export function withSentryError<Args extends unknown[], R>(
 ):
   (..._params: Args) => Promise<R> {
   return async (...params: Args): Promise<R> => {
-    if (process.env.NEXT_PUBLIC_APP_ENV === "E2E") {
+    // Check if we're in E2E environment
+    const isE2E = typeof process !== 'undefined' && 
+                  process.env?.NEXT_PUBLIC_APP_ENV === "E2E";
+    
+    if (isE2E) {
       return await fn(...params);
     }
     try {
@@ -30,7 +34,11 @@ export function withSentryErrorClient<Args extends unknown[], R>(
   fn: (...params: Args) => Promise<R>
 ): (..._params: Args) => Promise<R> {
   return async (...params: Args): Promise<R> => {
-    if (process.env.NEXT_PUBLIC_APP_ENV === "E2E") {
+    // Check if we're in E2E environment
+    const isE2E = typeof process !== 'undefined' && 
+                  process.env?.NEXT_PUBLIC_APP_ENV === "E2E";
+    
+    if (isE2E) {
       return await fn(...params);
     }
     try {
