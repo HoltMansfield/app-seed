@@ -2,7 +2,7 @@
 import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { startTransition, useActionState } from "react";
-import * as Sentry from "@sentry/nextjs";
+import { withSentryErrorClient } from "@/sentry-error";
 import { loginAction } from "./actions";
 import { schema, LoginFormInputs } from "./schema";
 import ServerError from "@/components/forms/ServerError";
@@ -25,17 +25,11 @@ export default function LoginPage() {
   });
   const { handleSubmit } = methods;
 
-  const onSubmit = async (data: LoginFormInputs) => {
-    try {
-      startTransition(() => {
-        formAction(data);
-      });
-    } catch (error) {
-      debugger;
-      Sentry.captureException(error);
-      throw error; // Re-throw so error boundary can catch it
-    }
-  };
+  const onSubmit = withSentryErrorClient(async (data: LoginFormInputs) => {
+    startTransition(() => {
+      formAction(data);
+    });
+  });
 
   return (
     <main className="flex flex-col items-center justify-center min-h-screen gap-8">
