@@ -1,11 +1,16 @@
 import * as Sentry from "@sentry/nextjs";
-import { env } from "@/env";
 
+/**
+ * Server-side wrapper for error handling with Sentry
+ * Skips Sentry in E2E environment
+ */
 export function withSentryError<Args extends unknown[], R>(
   fn: (...params: Args) => Promise<R>
 ):
   (..._params: Args) => Promise<R> {
   return async (...params: Args): Promise<R> => {
+    // Import env only when actually needed (server-side)
+    const { env } = await import("@/env");
     if (env.APP_ENV === "E2E") {
       return await fn(...params);
     }
