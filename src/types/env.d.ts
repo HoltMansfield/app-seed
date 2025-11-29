@@ -20,3 +20,7 @@ declare namespace NodeJS {
     LOG_LEVEL?: "trace" | "debug" | "info" | "warn" | "error" | "fatal";
   }
 }
+
+// Next.js Edge Runtime global variable
+// This is defined by Next.js in Edge Runtime environments
+declare const EdgeRuntime: string | undefined;
