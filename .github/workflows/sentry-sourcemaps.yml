@@ -12,6 +12,7 @@ jobs:
     environment: CI
     env:
       APP_ENV: CI
+      NEXT_PUBLIC_APP_ENV: CI
       SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
       SENTRY_ORG: holt-mansfield-2h
       SENTRY_PROJECT: deal-decoder

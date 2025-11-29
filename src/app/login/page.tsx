@@ -2,6 +2,7 @@
 import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { startTransition, useActionState } from "react";
+import * as Sentry from "@sentry/nextjs";
 import { loginAction } from "./actions";
 import { schema, LoginFormInputs } from "./schema";
 import ServerError from "@/components/forms/ServerError";
@@ -25,10 +26,16 @@ export default function LoginPage() {
   const { handleSubmit } = methods;
 
   const onSubmit = async (data: LoginFormInputs) => {
-    throw new Error("Login action not rrzzheer");
-    startTransition(() => {
-      formAction(data);
-    });
+    try {
+      throw new Error("Login page not rrzzheer");
+      startTransition(() => {
+        formAction(data);
+      });
+    } catch (error) {
+      const x = Sentry.captureException;
+      Sentry.captureException(error);
+      throw error; // Re-throw so error boundary can catch it
+    }
   };
 
   return (

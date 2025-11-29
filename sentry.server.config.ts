@@ -1,10 +1,13 @@
 import * as Sentry from "@sentry/nextjs";
-import { env } from "@/env";
 
 // Only initialize if SENTRY_DSN is provided
-if (env.SENTRY_DSN) {
+// Use process.env directly to avoid circular dependency with env.ts during instrumentation
+const sentryDsn = process.env.SENTRY_DSN;
+const appEnv = process.env.APP_ENV || "LOCAL";
+
+if (sentryDsn) {
   Sentry.init({
-    dsn: env.SENTRY_DSN,
+    dsn: sentryDsn,
 
     // Adjust this value in production, or use tracesSampler for greater control
     tracesSampleRate: 1.0,
@@ -12,7 +15,7 @@ if (env.SENTRY_DSN) {
     // Setting this option to true will print useful information to the console while you're setting up Sentry.
     debug: false,
 
-    environment: env.APP_ENV,
+    environment: appEnv,
 
     // Link errors to releases for sourcemap resolution
     release: process.env.SENTRY_RELEASE,

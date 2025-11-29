@@ -85,7 +85,12 @@ function validateEnv() {
 
     console.error("process.env:", process.env);
 
-    process.exit(1);
+    // Don't call process.exit in edge runtime
+    if (typeof EdgeRuntime === 'undefined') {
+      process.exit(1);
+    } else {
+      throw new Error("Invalid environment variables - check console for details");
+    }
   }
 }
 

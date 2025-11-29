@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       APP_ENV: CI
+      NEXT_PUBLIC_APP_ENV: CI
       # SENTRY_AUTH_TOKEN is needed when Sentry webpack plugin is enabled in next.config.ts
       SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
     steps:
