@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import { logoutAction } from "@/actions/auth";
 
@@ -9,7 +9,11 @@ interface NavBarClientProps {
 
 export default function NavBarClient({ currentUser }: NavBarClientProps) {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
-  
+  const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
+  const touchStartX = useRef<number>(0);
+  const touchEndX = useRef<number>(0);
+  const drawerRef = useRef<HTMLDivElement>(null);
+
   const handleLogout = async () => {
     await logoutAction();
   };
