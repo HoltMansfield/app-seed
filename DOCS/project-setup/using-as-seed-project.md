@@ -61,30 +61,88 @@
    ```
 4. Update sender email in `src/actions/emails.tsx` if needed
 
-### Error Monitoring (Highlight)
+### Error Monitoring (Sentry)
 
-1. Create a [Highlight](https://highlight.io/) account
-2. Create a new project
-3. Get your API key
-4. Update `.env.local` with your Highlight API key:
+1. Create a [Sentry](https://sentry.io/) account
+2. Create a new project (select Next.js as the platform)
+3. Get your DSN from the project settings
+4. Update `.env.local` with your Sentry DSN:
    ```
-   HIGHLIGHT_API_KEY=your_highlight_api_key
+   SENTRY_DSN=https://your-sentry-dsn@sentry.io/your-project-id
+   NEXT_PUBLIC_SENTRY_DSN=https://your-sentry-dsn@sentry.io/your-project-id
    ```
-5. Update the project ID in `src/highlight-error.ts` if needed
+5. The project is already configured with Sentry integration:
+   - Client-side: `sentry.client.config.ts`
+   - Server-side: `sentry.server.config.ts`
+   - Edge runtime: `sentry.edge.config.ts`
+6. For sourcemap uploads (optional), update `.github/workflows/sentry-sourcemaps.yml` with your Sentry organization and project names
 
 ## Step 4: Update E2E Testing Configuration
 
 1. Update the `.env.e2e` file:
 
    ```
-   NEXT_PUBLIC_APP_ENV=E2E
-   DB_URL=postgresql://test:test@localhost:5433/testdb
-   MIGRATIONS_PATH=./drizzle/e2e-migrations
    E2E_URL=http://localhost:3001
-   RESEND_API_KEY=noEmailsForE2E
+   DB_URL=postgresql://test:test@localhost:5433/testdb-<APP_NAME_HERE>
+   NEXT_PUBLIC_APP_ENV=E2E
    ```
 
-2. If needed, update the Docker configuration in `scripts/start-e2e-db.cjs`
+   Replace `<APP_NAME_HERE>` with your application name to ensure a unique database name for E2E tests.
+
+2. Update the `drizzle-e2e.config.ts` file with your app-specific database name:
+
+   ```typescript
+   import type { Config } from "drizzle-kit";
+
+   export default {
+     schema: "./src/db/schema.ts",
+     out: "./drizzle/migrations",
+     dialect: "postgresql",
+     dbCredentials: {
+       url: "postgresql://test:test@localhost:5433/testdb-<APP_NAME_HERE>",
+     },
+   } satisfies Config;
+   ```
+
+   Replace `<APP_NAME_HERE>` with the same application name you used in `.env.e2e`.
+
+3. Update the `.github/workflows/playwright.yml` file to use your app-specific database name:
+
+   Find the `POSTGRES_DB` line (around line 19) and update it:
+
+   ```yaml
+   services:
+     postgres:
+       image: postgres
+       env:
+         POSTGRES_PASSWORD: test
+         POSTGRES_USER: test
+         POSTGRES_DB: testdb-<APP_NAME_HERE>
+   ```
+
+   Also update the `DB_URL` in the "Create .env.e2e" step (around line 72):
+
+   ```yaml
+   - name: Create .env.e2e
+     run: |
+       echo "NEXT_PUBLIC_APP_ENV=E2E" > .env.e2e
+       echo "DB_URL=postgresql://test:test@localhost:5433/testdb-<APP_NAME_HERE>" >> .env.e2e
+       echo "MIGRATIONS_PATH=./drizzle/e2e-migrations" >> .env.e2e
+       echo "E2E_URL=http://localhost:3001" >> .env.e2e
+       chmod 600 .env.e2e
+   ```
+
+   Replace `<APP_NAME_HERE>` with the same application name used in the previous steps.
+
+4. Update the `scripts/start-e2e-db.cjs` file to use your app-specific database name:
+
+   Find the `POSTGRES_DB` constant (line 9) and update it:
+
+   ```javascript
+   const POSTGRES_DB = "testdb-<APP_NAME_HERE>";
+   ```
+
+   Replace `<APP_NAME_HERE>` with the same application name used in the previous steps.
 
 ## Step 5: Configure GitHub Actions and Secrets
 
@@ -302,7 +360,8 @@ NODE_VERSION=20
 NEXT_PUBLIC_APP_ENV=PRODUCTION
 DB_URL=postgresql://[your-neon-connection-string]
 RESEND_API_KEY=re_[your-resend-api-key]
-HIGHLIGHT_API_KEY=[your-highlight-api-key]
+SENTRY_DSN=https://[your-sentry-dsn]@sentry.io/[your-project-id]
+NEXT_PUBLIC_SENTRY_DSN=https://[your-sentry-dsn]@sentry.io/[your-project-id]
 MIGRATIONS_PATH=./drizzle/migrations
 ```
 
