@@ -75,7 +75,19 @@
    - Client-side: `sentry.client.config.ts`
    - Server-side: `sentry.server.config.ts`
    - Edge runtime: `sentry.edge.config.ts`
-6. For sourcemap uploads (optional), update `.github/workflows/sentry-sourcemaps.yml` with your Sentry organization and project names
+6. For sourcemap uploads (optional), update `.github/workflows/sentry-sourcemaps.yml` with your Sentry organization and project names:
+
+   Find the `env` section (around lines 13-17) and update:
+
+   ```yaml
+   env:
+     NEXT_PUBLIC_APP_ENV: CI
+     SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+     SENTRY_ORG: your-sentry-org-name
+     SENTRY_PROJECT: your-app-name
+   ```
+
+   Replace `your-sentry-org-name` with your Sentry organization slug and `your-app-name` with your project name
 
 ## Step 4: Update E2E Testing Configuration
 
