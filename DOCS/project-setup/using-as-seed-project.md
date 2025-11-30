@@ -75,9 +75,39 @@
    - Client-side: `sentry.client.config.ts`
    - Server-side: `sentry.server.config.ts`
    - Edge runtime: `sentry.edge.config.ts`
-6. For sourcemap uploads (optional), update `.github/workflows/sentry-sourcemaps.yml` with your Sentry organization and project names:
+6. **Configure Sentry Sourcemaps for Better Error Tracking**:
 
-   Find the `env` section (around lines 13-17) and update:
+   Sourcemaps allow Sentry to show you the original source code in error stack traces instead of minified code.
+
+   **a. Update Sentry Organization and Project Names**:
+
+   Edit `scripts/upload-sentry-sourcemaps.cjs` and update:
+
+   ```javascript
+   const SENTRY_ORG = "your-sentry-org-name";
+   const SENTRY_PROJECT = "your-app-name";
+   ```
+
+   **b. Get Sentry Auth Token**:
+
+   - Go to Sentry → Settings → Auth Tokens
+   - Click "Create New Token"
+   - Name it (e.g., "netlify-sourcemaps")
+   - Required scopes: `project:releases`, `project:write`, `org:read`
+   - Copy the token
+
+   **c. Add to Netlify Environment Variables**:
+
+   - Go to Netlify dashboard → Site settings → Environment variables
+   - Click "Add a variable"
+   - Name: `SENTRY_AUTH_TOKEN`
+   - Value: [paste your Sentry auth token]
+   - Scopes: Select "All scopes" or specific deploy contexts
+   - Click "Create variable"
+
+   **d. (Optional) Update GitHub Actions Workflow**:
+
+   If you want sourcemaps uploaded via GitHub Actions as well, update `.github/workflows/sentry-sourcemaps.yml`:
 
    ```yaml
    env:
@@ -87,7 +117,14 @@
      SENTRY_PROJECT: your-app-name
    ```
 
-   Replace `your-sentry-org-name` with your Sentry organization slug and `your-app-name` with your project name
+   Then add `SENTRY_AUTH_TOKEN` to your GitHub repository secrets.
+
+   **How it works**:
+
+   - Netlify builds (main + PR previews) will automatically upload sourcemaps
+   - GitHub Actions workflow uploads sourcemaps only on pushes to main
+   - Local builds skip sourcemap upload (no token required)
+   - Build won't fail if sourcemap upload fails
 
 ## Step 4: Update E2E Testing Configuration
 
@@ -374,10 +411,14 @@ DB_URL=postgresql://[your-neon-connection-string]
 RESEND_API_KEY=re_[your-resend-api-key]
 SENTRY_DSN=https://[your-sentry-dsn]@sentry.io/[your-project-id]
 NEXT_PUBLIC_SENTRY_DSN=https://[your-sentry-dsn]@sentry.io/[your-project-id]
+SENTRY_AUTH_TOKEN=[your-sentry-auth-token]
 MIGRATIONS_PATH=./drizzle/migrations
 ```
 
-**⚠️ Important**: Copy these values from your local `.env.local` file
+**⚠️ Important**:
+
+- Copy DSN values from your local `.env.local` file
+- `SENTRY_AUTH_TOKEN` is used for sourcemap uploads (see Step 3, section 6 above)
 
 ### 5. **Deploy your site**:
 
