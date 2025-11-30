@@ -128,19 +128,46 @@ Click **"New repository secret"** and add each of the following:
   - Required scopes: `project:releases`, `project:write`
   - If not using Sentry, you can skip this or disable the Sentry workflows
 
-#### 3. Create GitHub Environments (Optional but Recommended)
+#### 3. Create GitHub Environments and Add Secrets/Variables
 
-The workflows reference environments (`CI` and `e2e`) where you can set environment-specific variables:
+The workflows reference environments (`CI` and `e2e`) where you must configure secrets and variables:
+
+##### Step 3.1: Create Environments
 
 1. Go to repository → **Settings** → **Environments**
-2. Create two environments:
-
+2. Click **"New environment"** and create:
    - **`CI`**: For build and audit workflows
    - **`e2e`**: For E2E test workflows
 
-3. Add environment variables (not secrets) if needed:
-   - These are typically configuration values that aren't sensitive
-   - Example: `NODE_ENV=test` for the e2e environment
+##### Step 3.2: Configure the `e2e` Environment
+
+1. Click on the **`e2e`** environment
+2. Scroll to **"Environment secrets"** section
+3. Click **"Add environment secret"** and add each of the following:
+
+   - **Name**: `DOCKERHUB_USERNAME`  
+     **Value**: Your Docker Hub username (see Docker Hub Setup section below)
+   - **Name**: `DOCKERHUB_TOKEN`  
+     **Value**: Your Docker Hub access token (see Docker Hub Setup section below)
+   - **Name**: `SENTRY_AUTH_TOKEN` (optional, only if using Sentry)  
+     **Value**: Your Sentry auth token (see Sentry Setup section below)
+
+4. Scroll to **"Environment variables"** section
+5. Click **"Add environment variable"** and add:
+
+   - **Name**: `NEXT_PUBLIC_APP_ENV`  
+     **Value**: `e2e`
+
+##### Step 3.3: Configure the `CI` Environment
+
+1. Click on the **`CI`** environment
+2. Scroll to **"Environment secrets"** section
+3. Click **"Add environment secret"** and add:
+
+   - **Name**: `SENTRY_AUTH_TOKEN` (optional, only if using Sentry)  
+     **Value**: Your Sentry auth token (see Sentry Setup section below)
+
+**Note**: The `CI` environment primarily needs Sentry configuration if you're using it. Most other configuration is handled at the repository level or hardcoded in workflows.
 
 ### Docker Hub Setup (Detailed Steps)
 
