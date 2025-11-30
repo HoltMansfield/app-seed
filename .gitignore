@@ -53,4 +53,4 @@ node_modules/
 .sentryclirc
 
 # Test logs
-e2e-test-*.log
+e2e-test-runs/
