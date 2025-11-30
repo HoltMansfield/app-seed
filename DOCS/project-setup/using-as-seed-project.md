@@ -86,29 +86,129 @@
 
 2. If needed, update the Docker configuration in `scripts/start-e2e-db.cjs`
 
-## Step 5: Update GitHub Actions
+## Step 5: Configure GitHub Actions and Secrets
 
-1. Update the GitHub repository secrets:
+This project includes several GitHub Actions workflows that require proper configuration:
 
-   - Go to your GitHub repository → Settings → Secrets and variables → Actions
-   - Add the following secrets:
-     - `DB_URL`: Your database connection string
-     - `HIGHLIGHT_API_KEY`: Your Highlight API key
-     - `RESEND_API_KEY`: Your Resend API key
-     - `DOCKERHUB_USERNAME`: Your Docker Hub username (required for e2e tests)
-     - `DOCKERHUB_TOKEN`: Your Docker Hub access token (required for e2e tests)
+### GitHub Actions Workflows Overview
 
-2. **Docker Hub Setup for E2E Tests**:
-   
-   The e2e tests require Docker Hub authentication to pull the PostgreSQL image:
-   
-   - Go to [Docker Hub](https://hub.docker.com) and create an account if needed
-   - Go to Account Settings → Security → Access Tokens
-   - Create a new access token with "Public Repo Read" permissions
-   - Add `DOCKERHUB_USERNAME` (your Docker Hub username) to GitHub secrets
-   - Add `DOCKERHUB_TOKEN` (the access token, not your password) to GitHub secrets
+- **`audit.yml`**: Runs dependency security audits on pull requests
+- **`build.yml`**: Builds the Next.js application on push/PR
+- **`playwright.yml`**: Runs E2E tests with Playwright
+- **`sentry-sourcemaps.yml`**: Uploads sourcemaps to Sentry (optional)
 
-3. Review and update the GitHub Actions workflows in `.github/workflows/` if needed
+### Required GitHub Secrets Setup
+
+#### 1. Navigate to GitHub Secrets
+
+Go to your GitHub repository → **Settings** → **Secrets and variables** → **Actions**
+
+#### 2. Create Repository Secrets
+
+Click **"New repository secret"** and add each of the following:
+
+##### Required for E2E Tests (Playwright workflow):
+
+- **`DOCKERHUB_USERNAME`**: Your Docker Hub username
+
+  - Required to authenticate with Docker Hub for pulling PostgreSQL images
+  - Get this from your [Docker Hub](https://hub.docker.com) account
+
+- **`DOCKERHUB_TOKEN`**: Your Docker Hub access token
+  - **Important**: Use an access token, NOT your password
+  - Create at: Docker Hub → Account Settings → Security → Access Tokens
+  - Recommended permissions: "Public Repo Read"
+
+##### Optional for Sentry Integration:
+
+- **`SENTRY_AUTH_TOKEN`**: Your Sentry authentication token
+  - Only needed if you're using Sentry for error monitoring
+  - Required for both `build.yml` and `sentry-sourcemaps.yml` workflows
+  - Create at: Sentry → Settings → Auth Tokens
+  - Required scopes: `project:releases`, `project:write`
+  - If not using Sentry, you can skip this or disable the Sentry workflows
+
+#### 3. Create GitHub Environments (Optional but Recommended)
+
+The workflows reference environments (`CI` and `e2e`) where you can set environment-specific variables:
+
+1. Go to repository → **Settings** → **Environments**
+2. Create two environments:
+
+   - **`CI`**: For build and audit workflows
+   - **`e2e`**: For E2E test workflows
+
+3. Add environment variables (not secrets) if needed:
+   - These are typically configuration values that aren't sensitive
+   - Example: `NODE_ENV=test` for the e2e environment
+
+### Docker Hub Setup (Detailed Steps)
+
+The E2E tests require Docker Hub authentication:
+
+1. **Create Docker Hub Account**:
+
+   - Go to [Docker Hub](https://hub.docker.com)
+   - Sign up for a free account if you don't have one
+
+2. **Generate Access Token**:
+
+   - Log in to Docker Hub
+   - Click your username → **Account Settings**
+   - Go to **Security** → **Access Tokens**
+   - Click **"New Access Token"**
+   - Name: `github-actions-e2e` (or any descriptive name)
+   - Permissions: **"Public Repo Read"** (sufficient for pulling public images)
+   - Click **"Generate"**
+   - **Copy the token immediately** (you won't be able to see it again)
+
+3. **Add to GitHub Secrets**:
+   - Add `DOCKERHUB_USERNAME` with your Docker Hub username
+   - Add `DOCKERHUB_TOKEN` with the access token you just generated
+
+### Sentry Setup (Optional)
+
+If you want to use Sentry for error monitoring:
+
+1. **Update Sentry Configuration**:
+
+   - Edit `.github/workflows/sentry-sourcemaps.yml`
+   - Update `SENTRY_ORG` and `SENTRY_PROJECT` with your values:
+     ```yaml
+     env:
+       SENTRY_ORG: your-org-name
+       SENTRY_PROJECT: your-project-name
+     ```
+
+2. **Create Sentry Auth Token**:
+
+   - Go to Sentry → Settings → Auth Tokens
+   - Create a new token with scopes: `project:releases`, `project:write`
+   - Add as `SENTRY_AUTH_TOKEN` secret in GitHub
+
+3. **Disable Sentry (if not using)**:
+   - Delete or disable `.github/workflows/sentry-sourcemaps.yml`
+   - Remove Sentry configuration from `next.config.ts` if present
+
+### Verify GitHub Actions Setup
+
+After adding secrets:
+
+1. **Trigger a test run**:
+
+   - Push a commit to your main branch or create a pull request
+   - Go to repository → **Actions** tab
+   - Watch the workflows run
+
+2. **Check for errors**:
+
+   - If any workflow fails, click on it to see detailed logs
+   - Common issues:
+     - Missing secrets (will show "secret not found" errors)
+     - Invalid Docker Hub credentials
+     - Sentry configuration mismatch
+
+3. **Review workflow files** in `.github/workflows/` and customize if needed
 
 ## Step 6: Customize the Application
 
@@ -137,73 +237,76 @@
 ## Step 7: Deploy to Netlify
 
 ### Prerequisites
+
 - Ensure your code is pushed to a GitHub repository
 - Have your environment variables ready (from Steps 2 & 3)
 
 ### 1. **Create a Netlify account**:
 
-   - Sign up at [Netlify](https://app.netlify.com/signup) if you don't already have an account
-   - Choose "Sign up with GitHub" for easier integration
+- Sign up at [Netlify](https://app.netlify.com/signup) if you don't already have an account
+- Choose "Sign up with GitHub" for easier integration
 
 ### 2. **Connect your GitHub repository**:
 
-   - Go to the [Netlify dashboard](https://app.netlify.com)
-   - Click **"Add new site"** → **"Import an existing project"**
-   - Select **"GitHub"** as your Git provider
-   - **Authorize Netlify** to access your GitHub account (if not already done)
-   - **Search and select** your repository (e.g., `long-covid-ai`)
+- Go to the [Netlify dashboard](https://app.netlify.com)
+- Click **"Add new site"** → **"Import an existing project"**
+- Select **"GitHub"** as your Git provider
+- **Authorize Netlify** to access your GitHub account (if not already done)
+- **Search and select** your repository (e.g., `long-covid-ai`)
 
 ### 3. **Configure build settings**:
 
-   **Important**: Use these exact settings for Next.js:
-   - **Build command**: `yarn build` (or `npm run build`)
-   - **Publish directory**: `.next` 
-   - **Base directory**: Leave empty
-   - **Functions directory**: Leave empty
+**Important**: Use these exact settings for Next.js:
+
+- **Build command**: `yarn build` (or `npm run build`)
+- **Publish directory**: `.next`
+- **Base directory**: Leave empty
+- **Functions directory**: Leave empty
 
 ### 4. **Add environment variables** (CRITICAL):
 
-   Before deploying, add these environment variables:
-   
-   - In Netlify dashboard: **Site settings** → **Environment variables** → **Add variable**
-   - Add each variable individually:
+Before deploying, add these environment variables:
 
-   ```
-   NODE_VERSION=20
-   NEXT_PUBLIC_APP_ENV=PRODUCTION
-   DB_URL=postgresql://[your-neon-connection-string]
-   RESEND_API_KEY=re_[your-resend-api-key]
-   HIGHLIGHT_API_KEY=[your-highlight-api-key]
-   MIGRATIONS_PATH=./drizzle/migrations
-   ```
+- In Netlify dashboard: **Site settings** → **Environment variables** → **Add variable**
+- Add each variable individually:
 
-   **⚠️ Important**: Copy these values from your local `.env.local` file
+```
+NODE_VERSION=20
+NEXT_PUBLIC_APP_ENV=PRODUCTION
+DB_URL=postgresql://[your-neon-connection-string]
+RESEND_API_KEY=re_[your-resend-api-key]
+HIGHLIGHT_API_KEY=[your-highlight-api-key]
+MIGRATIONS_PATH=./drizzle/migrations
+```
+
+**⚠️ Important**: Copy these values from your local `.env.local` file
 
 ### 5. **Deploy your site**:
 
-   - Click **"Deploy site"**
-   - **Monitor the build logs** for any errors
-   - First deployment typically takes 2-3 minutes
-   - **Check the deploy log** if build fails
+- Click **"Deploy site"**
+- **Monitor the build logs** for any errors
+- First deployment typically takes 2-3 minutes
+- **Check the deploy log** if build fails
 
 ### 6. **Verify deployment**:
 
-   - Once deployed, click the **site URL** to test
-   - Test key functionality:
-     - Homepage loads
-     - Registration/login works
-     - Database connectivity (try registering a test user)
+- Once deployed, click the **site URL** to test
+- Test key functionality:
+  - Homepage loads
+  - Registration/login works
+  - Database connectivity (try registering a test user)
 
 ### 7. **Set up custom domain** (optional):
 
-   - Go to **Site settings** → **Domain management**
-   - Click **"Add custom domain"**
-   - Follow DNS configuration instructions
+- Go to **Site settings** → **Domain management**
+- Click **"Add custom domain"**
+- Follow DNS configuration instructions
 
 ### 8. **Continuous deployment** (automatic):
-   - ✅ **Automatic**: Every push to your `main` branch triggers a new deployment
-   - View deployment history in the Netlify dashboard
-   - Rollback to previous versions if needed
+
+- ✅ **Automatic**: Every push to your `main` branch triggers a new deployment
+- View deployment history in the Netlify dashboard
+- Rollback to previous versions if needed
 
 ### 🔧 **Build Configuration File** (Alternative)
 
