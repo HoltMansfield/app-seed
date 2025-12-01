@@ -70,7 +70,7 @@ This workflow uploads sourcemaps to Sentry for better error tracking and debuggi
 The workflows use GitHub Environments and Secrets for managing sensitive information:
 
 - The `e2e` environment contains secrets needed for E2E testing
-- The `CI` environment contains secrets needed for build and Sentry workflows
+- The `CI` environment contains secrets needed for build, audit, and Sentry workflows
 - Secrets are injected into the workflow at runtime
 - Environment variables are properly secured and not exposed in logs
 
