@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: Build Next.js App
+    name: Next.js Build
     #environment: CI # this is where environment variables are set
     runs-on: ubuntu-latest
     env:
