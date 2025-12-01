@@ -273,8 +273,13 @@ The workflows reference environments (`CI` and `e2e`) where you must configure s
 
    - **Name**: `SENTRY_AUTH_TOKEN` (optional, only if using Sentry)  
      **Value**: Your Sentry auth token (see Sentry Setup section below)
+     **Required scopes**: `project:releases`, `project:write`, `org:read`
 
-**Note**: The `CI` environment primarily needs Sentry configuration if you're using it. Most other configuration is handled at the repository level or hardcoded in workflows.
+**Important Notes**:
+
+- The `CI` environment uses **secrets only** - no environment variables are needed
+- `SENTRY_AUTH_TOKEN` must be added as a **secret**, not an environment variable
+- This secret is used by both `build.yml` and `sentry-sourcemaps.yml` workflows
 
 ### Docker Hub Setup (Detailed Steps)
 

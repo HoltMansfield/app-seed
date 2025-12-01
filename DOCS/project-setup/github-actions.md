@@ -58,11 +58,19 @@ This workflow uploads sourcemaps to Sentry for better error tracking and debuggi
 
 - Update `SENTRY_ORG` and `SENTRY_PROJECT` in the workflow file with your Sentry organization and project names
 
+**Required Secrets:**
+
+- **`SENTRY_AUTH_TOKEN`**: Must be added as a secret in the `CI` environment
+  - Go to: Repository → Settings → Environments → CI → Environment secrets
+  - Create at: Sentry → Settings → Auth Tokens
+  - Required scopes: `project:releases`, `project:write`, `org:read`
+
 ## Environment Setup
 
 The workflows use GitHub Environments and Secrets for managing sensitive information:
 
 - The `e2e` environment contains secrets needed for E2E testing
+- The `CI` environment contains secrets needed for build and Sentry workflows
 - Secrets are injected into the workflow at runtime
 - Environment variables are properly secured and not exposed in logs
 
