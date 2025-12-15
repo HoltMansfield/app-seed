@@ -7,7 +7,7 @@ if (!process.env.SENTRY_AUTH_TOKEN) {
 }
 
 const SENTRY_ORG = "holt-mansfield-2h";
-const SENTRY_PROJECT = "rekindle";
+const SENTRY_PROJECT = "<YOUR PROJECT NAME HERE>";
 
 try {
   console.log("Installing Sentry CLI...");
