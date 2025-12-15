@@ -17,8 +17,15 @@ module.exports = [
       "jsx-a11y": jsxA11y,
     },
     rules: {
-      "no-unused-vars": "warn",
-      "@typescript-eslint/no-unused-vars": "warn",
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          caughtErrorsIgnorePattern: "^_",
+        },
+      ],
       // You can override or add jsx-a11y rules here if needed
     },
   },

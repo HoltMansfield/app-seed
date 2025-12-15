@@ -5,20 +5,18 @@ import * as Sentry from "@sentry/nextjs";
  * Skips Sentry in E2E environment
  */
 export function withSentryError<Args extends unknown[], R>(
-  fn: (...params: Args) => Promise<R>
-):
-  (..._params: Args) => Promise<R> {
-  return async (...params: Args): Promise<R> => {
-    // Check if we're in E2E environment
-    const isE2E = typeof process !== 'undefined' && 
-                  process.env?.NEXT_PUBLIC_APP_ENV === "E2E";
-    
+  fn: (...args: Args) => Promise<R>
+): (...args: Args) => Promise<R> {
+  return async (...args: Args): Promise<R> => {
+    const isE2E =
+      typeof process !== "undefined" &&
+      process.env?.NEXT_PUBLIC_APP_ENV === "E2E";
+
     if (isE2E) {
-      return await fn(...params);
+      return fn(...args);
     }
     try {
-      const result = await fn(...params);
-      return result;
+      return await fn(...args);
     } catch (error) {
       Sentry.captureException(error);
       throw error;
@@ -31,19 +29,18 @@ export function withSentryError<Args extends unknown[], R>(
  * Skips Sentry in E2E environment (checks via process.env since env is server-only)
  */
 export function withSentryErrorClient<Args extends unknown[], R>(
-  fn: (...params: Args) => Promise<R>
-): (..._params: Args) => Promise<R> {
-  return async (...params: Args): Promise<R> => {
-    // Check if we're in E2E environment
-    const isE2E = typeof process !== 'undefined' && 
-                  process.env?.NEXT_PUBLIC_APP_ENV === "E2E";
-    
+  fn: (...args: Args) => Promise<R>
+): (...args: Args) => Promise<R> {
+  return async (...args: Args): Promise<R> => {
+    const isE2E =
+      typeof process !== "undefined" &&
+      process.env?.NEXT_PUBLIC_APP_ENV === "E2E";
+
     if (isE2E) {
-      return await fn(...params);
+      return fn(...args);
     }
     try {
-      const result = await fn(...params);
-      return result;
+      return await fn(...args);
     } catch (error) {
       Sentry.captureException(error);
       throw error;
